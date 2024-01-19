@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\InformationComplementaireController;
+use App\Http\Controllers\Api\UserAuthentificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/login', [UserAuthentificationController::class, 'login'])->name('login');
+Route::post('/register', [UserAuthentificationController::class, 'register'])->name('register');
+Route::get('/logout', [UserAuthentificationController::class, 'logout'])->name('logout');

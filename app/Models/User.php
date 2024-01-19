@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function informationCompletentiares(){
+        return $this->hasOne(InformationComplementaire::class);
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
 }
