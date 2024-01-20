@@ -15,7 +15,9 @@ return new class extends Migration
         Schema::create('information_complementaires', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->string('bio')->default('Ecrivez votre bio...');
+            $table->string('bio');
+            $table->string('qualification');
+            $table->string('experience');
             $table->timestamps();
         });
     }

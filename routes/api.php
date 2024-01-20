@@ -25,3 +25,4 @@ Route::post('/login', [UserAuthentificationController::class, 'login'])->name('l
 Route::post('/register', [UserAuthentificationController::class, 'register'])->name('register');
 Route::post('/logout', [UserAuthentificationController::class, 'logout'])->name('logout');
 Route::post('/refresh', [UserAuthentificationController::class, 'refresh'])->name('refresh');
+Route::post('/updatePassword', [UserAuthentificationController::class, 'updatePassword'])->name('updatePassword');
