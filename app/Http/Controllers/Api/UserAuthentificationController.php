@@ -19,9 +19,13 @@ class UserAuthentificationController extends Controller
     {
         $credentials = $request->validated();
 
-        if (Auth::attempt($credentials)) {
+        if ($token = Auth::guard('api')->attempt($credentials)) {
             return response()->json([
-                "Message" => "Utilisateur Authentifié"
+                "Message" => "Utilisateur Authentifié",
+                "Autorisation" => [
+                    "Token" => $token,
+                    "Type" => "bearer"
+                ]
             ]);
         }
 
@@ -52,10 +56,28 @@ class UserAuthentificationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function logout(){
-        Auth::logout();
+    public function logout()
+    {
+        Auth::guard('api')->logout();
         return response()->json([
             "Message" => "Utilisateur Deconnecté ! "
         ], 200);
+    }
+
+    public function refresh()
+    {
+        try {
+
+            return response()->json([
+                'status' => 'success',
+                'user' => Auth::guard('api')->user(),
+                'authorisation' => [
+                    'token' => Auth::guard('api')->refresh(),
+                    'type' => 'bearer',
+                ]
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json(["Error" => "Token Invalide"]);
+        }
     }
 }
