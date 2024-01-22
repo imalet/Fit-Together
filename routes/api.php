@@ -31,7 +31,7 @@ Route::post('/refresh', [UserAuthentificationController::class, 'refresh'])->nam
 Route::post('/updatePassword', [UserAuthentificationController::class, 'updatePassword'])->name('updatePassword');
 
 // Gestion des Videos
-Route::get('/videos', [VideoController::class, 'index'])->name('video.list');
+Route::get('/videos', [VideoController::class, 'index'])->name('video.list')->middleware('auth:api');
 Route::post('/video', [VideoController::class, 'store'])->name('video.store');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::post('/video/{id}', [VideoController::class, 'update'])->name('video.update');
