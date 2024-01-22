@@ -34,7 +34,6 @@ class UserAuthentificationController extends Controller
         ], 401);
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -109,5 +108,11 @@ class UserAuthentificationController extends Controller
         $user->password = Hash::make($request->newPassword);
         $user->save();
         return response('Mot de passe Modifié avec Success');
+    }
+
+    public function nonConnecte(){
+        return response()->json([
+            "Message" => "Veillez vous connecter"
+        ]);
     }
 }

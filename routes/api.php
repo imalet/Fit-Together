@@ -29,9 +29,11 @@ Route::post('/register', [UserAuthentificationController::class, 'register'])->n
 Route::post('/logout', [UserAuthentificationController::class, 'logout'])->name('logout');
 Route::post('/refresh', [UserAuthentificationController::class, 'refresh'])->name('refresh');
 Route::post('/updatePassword', [UserAuthentificationController::class, 'updatePassword'])->name('updatePassword');
+Route::get('/nonConnecte', [UserAuthentificationController::class, 'nonConnecte'])->name('nonConnecte');
+
 
 // Gestion des Videos
-Route::get('/videos', [VideoController::class, 'index'])->name('video.list')->middleware('auth:api');
+Route::get('/videos', [VideoController::class, 'index'])->name('video.list')->middleware('auth:api', 'isCoach');
 Route::post('/video', [VideoController::class, 'store'])->name('video.store');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::post('/video/{id}', [VideoController::class, 'update'])->name('video.update');
