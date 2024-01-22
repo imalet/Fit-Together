@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\InformationComplementaireController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserAuthentificationController;
 use App\Http\Controllers\Api\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -38,3 +40,10 @@ Route::post('/video', [VideoController::class, 'store'])->name('video.store');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::post('/video/{id}', [VideoController::class, 'update'])->name('video.update');
 Route::delete('/video/{id}', [VideoController::class, 'destroy'])->name('video.delete');
+
+// Gestion des Videos
+Route::get('/posts', [PostController::class, 'index'])->name('post.list');
+Route::post('/post', [PostController::class, 'store'])->name('post.store');
+Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
+Route::post('/post/{id}', [PostController::class, 'update'])->name('post.update');
+Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('post.delete');
