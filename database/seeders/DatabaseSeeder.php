@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
 
         Role::factory(3)
+            ->has(User::factory()->count(10))
             ->create();
 
         // \App\Models\User::factory()->create([
