@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\InformationComplementaire;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class InformationComplementaireController extends Controller
 {
@@ -15,6 +13,12 @@ class InformationComplementaireController extends Controller
      */
     public function index()
     {
+        $informationComplementaires = InformationComplementaire::all();
+
+        return response()->json([
+            "Message" => "Lister Tous les Users",
+            "Users" => $informationComplementaires
+        ]);
     }
 
     /**
@@ -30,6 +34,19 @@ class InformationComplementaireController extends Controller
      */
     public function store(Request $request)
     {
+        $informationComplementaire = new InformationComplementaire();
+        $informationComplementaire->user_id = $request->user_id; // Auth::user()
+        $informationComplementaire->bio = $request->bio;
+        $informationComplementaire->qualification = $request->qualification;
+        $informationComplementaire->experience = $request->experience;
+
+        if ($informationComplementaire->save()) {
+            return response()->json([
+                "Message" => "Information Complementaires Ajouté avec Success !",
+                "Information Complementaire" => $informationComplementaire
+            ], 200);
+        }
+        return response("Ajout d'Information Complementaires Echoué !");
     }
 
     /**
@@ -37,7 +54,12 @@ class InformationComplementaireController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $informationComplementaire = InformationComplementaire::findOrFail($id);
+
+        return response()->json([
+            "Message" => "Affichage d'une Video",
+            "Information de la Video" => $informationComplementaire
+        ]);
     }
 
     /**
@@ -53,14 +75,39 @@ class InformationComplementaireController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $informationComplementaire = InformationComplementaire::findOrFail($id);
+        $informationComplementaire->bio = $request->bio;
+        $informationComplementaire->qualification = $request->qualification;
+        $informationComplementaire->experience = $request->experience;
+
+        if ($informationComplementaire->save()) {
+            return response()->json([
+                "Message" => "Information Complementaires Modifié avec Success !",
+                "Information Complementaires" => $informationComplementaire
+            ], 200);
+        }
+        return response("Moficication d'Information Complementaires Echoué !");
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $informationComplementaire = InformationComplementaire::findOrFail($id);
+
+        if (!$informationComplementaire) {
+            return response("Desole, l'Information Complementaire que vous essayez de supprimer n'existe pas !");
+        }
+
+        $informationComplementaire->delete();
+
+        return response()->json([
+            "Message" => "Supprimer une Information Complementaire",
+            "Information Complementaire" => $informationComplementaire
+        ]);
     }
 }

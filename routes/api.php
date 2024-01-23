@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserAuthentificationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VideoController;
+use App\Models\InformationComplementaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,13 @@ Route::get('/users', [UserController::class, 'index'])->name('user.list');
 Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
 Route::post('/user/{id}', [UserController::class, 'update'])->name('user.update');
 Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.delete');
+
+// Gestion des Informations Complementaires
+Route::get('/informations/complementaires', [InformationComplementaireController::class, 'index'])->name('information.complementaire.list');
+Route::post('/information/complementaire', [InformationComplementaireController::class, 'store'])->name('information.complementaire.list.store');
+Route::get('/information/complementaire/{id}', [InformationComplementaireController::class, 'show'])->name('information.complementaire.list.show');
+Route::post('/information/complementaire/{id}', [InformationComplementaireController::class, 'update'])->name('information.complementaire.list.update');
+Route::delete('/information/complementaire/{id}', [InformationComplementaireController::class, 'destroy'])->name('information.complementaire.list.delete');
 
 // Gestion des Videos
 Route::get('/videos', [VideoController::class, 'index'])->name('video.list');
