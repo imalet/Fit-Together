@@ -36,16 +36,24 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
+        $fileName = time() . "." . $request->path_video->extension();
+
+        $video_path = $request->path_video->storeAs(
+            'videos_posts',
+            $fileName,
+            'public'
+        );
+
         $newVideo = new Video();
         $newVideo->titre = $request->titre;
-        $newVideo->path_video = $request->path_video;
+        $newVideo->path_video = $video_path;
         $newVideo->duree = $request->duree;
         $newVideo->user_id = $request->user_id;
         $newVideo->categorie_id = $request->categorie_id;
 
         if ($newVideo->save()) {
             return response()->json([
-                "Message" => "Video Ajoué avec Success !"
+                "Message" => "Video Ajouté avec Success !"
             ], 200);
         }
         return response("Video Ajoué avec Success !");

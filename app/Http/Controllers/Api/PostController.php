@@ -34,17 +34,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // $fileName = time() . "." . $request->photoProfil->extension();
+        $fileName = time() . "." . $request->path_image->extension();
 
-        // $image_path = $request->photoProfil->storeAs(
-        //     'images_profil',
-        //     $fileName,
-        //     'public'
-        // );
+        $image_path = $request->path_image->storeAs(
+            'images_posts',
+            $fileName,
+            'public'
+        );
 
         $newVideo = new Post();
         $newVideo->titre = $request->titre;
-        $newVideo->image = $request->path_image;
+        $newVideo->image = $image_path;
         $newVideo->contenu = $request->contenu;
         $newVideo->user_id = $request->user_id;
 
