@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Categorie;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->string('path_video');
             $table->string('duree');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Categorie::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

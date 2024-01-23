@@ -41,6 +41,7 @@ class VideoController extends Controller
         $newVideo->path_video = $request->path_video;
         $newVideo->duree = $request->duree;
         $newVideo->user_id = $request->user_id;
+        $newVideo->categorie_id = $request->categorie_id;
 
         if ($newVideo->save()) {
             return response()->json([
