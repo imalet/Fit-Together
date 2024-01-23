@@ -3,9 +3,11 @@
 use App\Http\Controllers\Api\InformationComplementaireController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserAuthentificationController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -33,6 +35,11 @@ Route::post('/refresh', [UserAuthentificationController::class, 'refresh'])->nam
 Route::post('/updatePassword', [UserAuthentificationController::class, 'updatePassword'])->name('updatePassword');
 Route::get('/nonConnecte', [UserAuthentificationController::class, 'nonConnecte'])->name('nonConnecte');
 
+// Gestion des Users
+Route::get('/users', [UserController::class, 'index'])->name('user.list');
+Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
+Route::post('/user/{id}', [UserController::class, 'update'])->name('user.update');
+Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
 // Gestion des Videos
 Route::get('/videos', [VideoController::class, 'index'])->name('video.list');
@@ -41,7 +48,7 @@ Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::post('/video/{id}', [VideoController::class, 'update'])->name('video.update');
 Route::delete('/video/{id}', [VideoController::class, 'destroy'])->name('video.delete');
 
-// Gestion des Videos
+// Gestion des Posts
 Route::get('/posts', [PostController::class, 'index'])->name('post.list');
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
 Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
