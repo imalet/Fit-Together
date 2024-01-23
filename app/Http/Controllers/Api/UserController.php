@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class UserController extends Controller
 
         return response()->json([
             "Message" => "Lister Tous les Users",
-            "Users" => $users
+            "Users" => UserResource::collection($users)
         ]);
     }
 
@@ -43,10 +44,11 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::findOrFail($id);
+        // return new UserResource($user);
 
         return response()->json([
             "Message" => "Affichage d'un Utilisateur",
-            "Information de l'Utilisateur" => $user
+            "Information de l'Utilisateur" => new UserResource($user)
         ]);
     }
 
@@ -79,7 +81,7 @@ class UserController extends Controller
 
         if ($newData->save()) {
             return response()->json([
-                "Nouvel Donne de l'Utilisateur" => $newData,
+                "Nouvel Donne de l'Utilisateur" => new UserResource($newData),
                 "Message" => "Modification d'un Utilisateur Réussi !"
             ], 200);
         }

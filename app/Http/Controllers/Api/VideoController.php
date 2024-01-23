@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\VideoResource;
 use App\Models\User;
 use App\Models\Video;
 use Dotenv\Repository\RepositoryInterface;
@@ -19,7 +20,7 @@ class VideoController extends Controller
 
         return response()->json([
             "Message" => "Lister Toutes les videos",
-            "Videos" => $videos
+            "Videos" => VideoResource::collection($videos)
         ]);
     }
 
@@ -53,7 +54,8 @@ class VideoController extends Controller
 
         if ($newVideo->save()) {
             return response()->json([
-                "Message" => "Video Ajouté avec Success !"
+                "Message" => "Video Ajouté avec Success !",
+                "Vidéo Ajouté" => new VideoResource($newVideo)
             ], 200);
         }
         return response("Video Ajoué avec Success !");
@@ -68,7 +70,7 @@ class VideoController extends Controller
 
         return response()->json([
             "Message" => "Affichage d'une Video",
-            "Information de la Video" => $video
+            "Information de la Video" => new VideoResource($video)
         ]);
     }
 
@@ -94,7 +96,7 @@ class VideoController extends Controller
 
         return response()->json([
             "Message" => "Modifier une Video",
-            "Nouvelle Informations" => $video
+            "Nouvelle Informations" => new VideoResource($video)
         ]);
     }
 
@@ -113,7 +115,7 @@ class VideoController extends Controller
         
         return response()->json([
             "Message" => "Supprimer une Video",
-            "Video" => $video
+            "Video" => new VideoResource($video)
         ]);
     }
 }

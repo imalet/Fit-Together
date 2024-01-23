@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\InformationCompleteResource;
 use App\Models\InformationComplementaire;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class InformationComplementaireController extends Controller
 
         return response()->json([
             "Message" => "Lister Tous les Users",
-            "Users" => $informationComplementaires
+            "Users" => InformationCompleteResource::collection($informationComplementaires)
         ]);
     }
 
@@ -43,7 +44,7 @@ class InformationComplementaireController extends Controller
         if ($informationComplementaire->save()) {
             return response()->json([
                 "Message" => "Information Complementaires Ajouté avec Success !",
-                "Information Complementaire" => $informationComplementaire
+                "Information Complementaire" => new InformationCompleteResource($informationComplementaire)
             ], 200);
         }
         return response("Ajout d'Information Complementaires Echoué !");
@@ -58,7 +59,7 @@ class InformationComplementaireController extends Controller
 
         return response()->json([
             "Message" => "Affichage d'une Video",
-            "Information de la Video" => $informationComplementaire
+            "Information de la Video" => new InformationCompleteResource($informationComplementaire)
         ]);
     }
 
@@ -84,7 +85,7 @@ class InformationComplementaireController extends Controller
         if ($informationComplementaire->save()) {
             return response()->json([
                 "Message" => "Information Complementaires Modifié avec Success !",
-                "Information Complementaires" => $informationComplementaire
+                "Information Complementaires" => new InformationCompleteResource($informationComplementaire)
             ], 200);
         }
         return response("Moficication d'Information Complementaires Echoué !");
@@ -107,7 +108,7 @@ class InformationComplementaireController extends Controller
 
         return response()->json([
             "Message" => "Supprimer une Information Complementaire",
-            "Information Complementaire" => $informationComplementaire
+            "Information Complementaire" => new InformationCompleteResource($informationComplementaire)
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class PostController extends Controller
 
         return response()->json([
             "Message" => "Lister Tous les posts",
-            "Posts" => $posts
+            "Posts" => PostResource::collection($posts)
         ]);
     }
 
@@ -42,15 +43,16 @@ class PostController extends Controller
             'public'
         );
 
-        $newVideo = new Post();
-        $newVideo->titre = $request->titre;
-        $newVideo->image = $image_path;
-        $newVideo->contenu = $request->contenu;
-        $newVideo->user_id = $request->user_id;
+        $newPost = new Post();
+        $newPost->titre = $request->titre;
+        $newPost->image = $image_path;
+        $newPost->contenu = $request->contenu;
+        $newPost->user_id = $request->user_id;
 
-        if ($newVideo->save()) {
+        if ($newPost->save()) {
             return response()->json([
-                "Message" => "Post Ajoué avec Success !"
+                "Message" => "Post Ajoué avec Success !",
+                "Information du Post" => new PostResource($newPost)
             ], 200);
         }
         return response("Ajout de Post Echoué");
@@ -65,7 +67,7 @@ class PostController extends Controller
 
         return response()->json([
             "Message" => "Affichage d'un Post",
-            "Information du Post" => $post
+            "Information du Post" => new PostResource($post)
         ]);
     }
 
@@ -91,7 +93,7 @@ class PostController extends Controller
 
         return response()->json([
             "Message" => "Modifier une Post",
-            "Nouvelle Informations" => $post
+            "Post" => new PostResource($post)
         ]);
     }
 
@@ -112,7 +114,7 @@ class PostController extends Controller
         
         return response()->json([
             "Message" => "Supprimer un Post",
-            "Post" => $post
+            "Post" => new PostResource($post)
         ]);
     }
 }
