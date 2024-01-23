@@ -35,7 +35,7 @@ Route::get('/nonConnecte', [UserAuthentificationController::class, 'nonConnecte'
 
 
 // Gestion des Videos
-Route::get('/videos', [VideoController::class, 'index'])->name('video.list')->middleware('auth:api', 'isCoach');
+Route::get('/videos', [VideoController::class, 'index'])->name('video.list');
 Route::post('/video', [VideoController::class, 'store'])->name('video.store');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
 Route::post('/video/{id}', [VideoController::class, 'update'])->name('video.update');

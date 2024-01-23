@@ -43,6 +43,7 @@ class PostController extends Controller
         // );
 
         $newVideo = new Post();
+        $newVideo->titre = $request->titre;
         $newVideo->image = $request->path_image;
         $newVideo->contenu = $request->contenu;
         $newVideo->user_id = $request->user_id;
@@ -83,6 +84,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
+        $post->titre = $request->titre;
         $post->image = $request->image;
         $post->contenu = $request->contenu;
         $post->update();
