@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CommentaireController;
 use App\Http\Controllers\Api\InformationComplementaireController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserAuthentificationController;
@@ -62,3 +63,10 @@ Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
 Route::post('/post', [PostController::class, 'store'])->name('post.store')->middleware('auth:api');
 Route::post('/post/{id}', [PostController::class, 'update'])->name('post.update')->middleware('auth:api');
 Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('post.delete')->middleware('auth:api');
+
+// Gestion des Commentaires
+Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaire.list');
+Route::get('/commentaire/{id}', [CommentaireController::class, 'show'])->name('commentaire.show');
+Route::post('/commentaire', [CommentaireController::class, 'store'])->name('commentaire.store')->middleware('auth:api');
+Route::post('/commentaire/{id}', [CommentaireController::class, 'update'])->name('commentaire.update')->middleware('auth:api');
+Route::delete('/commentaire/{id}', [CommentaireController::class, 'destroy'])->name('commentaire.delete')->middleware('auth:api');
