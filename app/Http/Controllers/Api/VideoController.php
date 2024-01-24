@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Video;
 use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoController extends Controller
 {
@@ -37,6 +38,8 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Video::class);
+
         $fileName = time() . "." . $request->path_video->extension();
 
         $video_path = $request->path_video->storeAs(
@@ -49,7 +52,7 @@ class VideoController extends Controller
         $newVideo->titre = $request->titre;
         $newVideo->path_video = $video_path;
         $newVideo->duree = $request->duree;
-        $newVideo->user_id = $request->user_id;
+        $newVideo->user_id = $request->user()->id;
         $newVideo->categorie_id = $request->categorie_id;
 
         if ($newVideo->save()) {
@@ -85,9 +88,28 @@ class VideoController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(Request $request, string $id)
+    // {
+    //     $video = Video::findOrFail($id);
+
+    //     $this->authorize('update', Video::class);
+
+
+    //     $video->titre = $request->titre;
+    //     $video->path_video = $request->path_video;
+    //     $video->duree = $request->duree;
+    //     $video->update();
+
+    //     return response()->json([
+    //         "Message" => "Modifier une Video",
+    //         "Nouvelle Informations" => new VideoResource($video)
+    //     ]);
+    // }
     public function update(Request $request, string $id)
     {
         $video = Video::findOrFail($id);
+
+        $this->authorize('update', $video);
 
         $video->titre = $request->titre;
         $video->path_video = $request->path_video;
@@ -105,14 +127,16 @@ class VideoController extends Controller
      */
     public function destroy(string $id)
     {
+        
         $video = Video::findOrFail($id);
+        $this->authorize('delete', $video);
 
         if (!$video) {
             return response("Desole, la video que vous essayez de supprimer n'existe pas !");
         }
 
         $video->delete();
-        
+
         return response()->json([
             "Message" => "Supprimer une Video",
             "Video" => new VideoResource($video)

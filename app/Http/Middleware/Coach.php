@@ -16,7 +16,7 @@ class Coach
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('api')->user()->role_id === 1) {
+        if (Auth::guard('api')->user()->role->role === "ROLE_COACH") {
             return $next($request);
         }
         return response("Desole vous n'avez pas les droits");

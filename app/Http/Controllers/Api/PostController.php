@@ -50,7 +50,7 @@ class PostController extends Controller
         $newPost->titre = $request->titre;
         $newPost->image = $image_path;
         $newPost->contenu = $request->contenu;
-        $newPost->user_id = $request->user_id;
+        $newPost->user_id = $request->user()->id;
 
         if ($newPost->save()) {
             return response()->json([
@@ -109,7 +109,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        $this->authorize('destroy', $post);
+        $this->authorize('delete', $post);
 
         if (!$post) {
             return response()->json([

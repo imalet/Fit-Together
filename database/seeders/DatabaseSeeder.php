@@ -24,14 +24,14 @@ class DatabaseSeeder extends Seeder
             ->has(User::factory()->count(2))
             ->create();
         
-        Categorie::factory(5)
-            ->has(Video::factory()->count(10))
+        Categorie::factory(2)
+            ->has(Video::factory()->count(2))
             ->create();
 
-        Post::factory(7)
+        Post::factory(2)
             ->create();
         
-        InformationComplementaire::factory(13)
+        InformationComplementaire::factory(2)
             ->create();
 
         // \App\Models\User::factory()->create([

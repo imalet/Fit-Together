@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class VideoPolicy
 {
@@ -37,9 +38,7 @@ class VideoPolicy
      */
     public function update(User $user, Video $video)
     {
-        return $user->id === $video->user_id
-            ? Response::allow()
-            : Response::deny('Vous n\'avez pas le droit de mettre à jour cette Video.');
+        return $user->id === $video->user_id;
     }
 
     /**
@@ -47,9 +46,7 @@ class VideoPolicy
      */
     public function delete(User $user, Video $video)
     {
-        return $user->id === $video->user_id && $user->role->role === "ROLE_ADMIN"
-            ? Response::allow()
-            : Response::deny('Vous n\'avez pas le droit de mettre à jour cette Video.');
+        return $user->id === $video->user_id;
     }
 
     /**

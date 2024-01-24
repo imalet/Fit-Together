@@ -27,19 +27,24 @@ class InformationComplementairePolicy
     /**
      * Determine whether the user can create models.
      */
+    // public function create(User $user): bool
+    // {
+    //     return $user->role->role === "ROLE_COACH";
+    // }
+
     public function create(User $user): bool
     {
         return $user->role->role === "ROLE_COACH";
     }
+
+
 
     /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, InformationComplementaire $informationComplementaire)
     {
-        return $user->id === $informationComplementaire->user_id
-            ? Response::allow()
-            : Response::deny('Vous n\'avez pas le droit de mettre à jour ces informations.');
+        return $user->id === $informationComplementaire->user_id;
     }
 
     /**
@@ -47,9 +52,7 @@ class InformationComplementairePolicy
      */
     public function delete(User $user, InformationComplementaire $informationComplementaire)
     {
-        return $user->id === $informationComplementaire->user_id && $user->role->role === "ROLE_ADMIN"
-            ? Response::allow()
-            : Response::deny('Vous n\'avez pas le droit de mettre à jour ces informations.');
+        return $user->id === $informationComplementaire->user_id;
     }
 
     /**

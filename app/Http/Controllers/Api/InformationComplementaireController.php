@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InformationCompleteResource;
 use App\Models\InformationComplementaire;
+use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Http\Request;
 
 class InformationComplementaireController extends Controller
@@ -35,8 +36,11 @@ class InformationComplementaireController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->authorize('create', InformationComplementaire::class);
+
         $informationComplementaire = new InformationComplementaire();
-        $informationComplementaire->user_id = $request->user_id; // Auth::user()
+        $informationComplementaire->user_id = $request->user()->id;
         $informationComplementaire->bio = $request->bio;
         $informationComplementaire->qualification = $request->qualification;
         $informationComplementaire->experience = $request->experience;
@@ -50,12 +54,14 @@ class InformationComplementaireController extends Controller
         return response("Ajout d'Information Complementaires Echoué !");
     }
 
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
         $informationComplementaire = InformationComplementaire::findOrFail($id);
+
 
         return response()->json([
             "Message" => "Affichage d'une Video",
@@ -78,6 +84,9 @@ class InformationComplementaireController extends Controller
     {
 
         $informationComplementaire = InformationComplementaire::findOrFail($id);
+
+        $this->authorize('update',$informationComplementaire);
+
         $informationComplementaire->bio = $request->bio;
         $informationComplementaire->qualification = $request->qualification;
         $informationComplementaire->experience = $request->experience;
@@ -99,6 +108,8 @@ class InformationComplementaireController extends Controller
     public function destroy(string $id)
     {
         $informationComplementaire = InformationComplementaire::findOrFail($id);
+
+        $this->authorize('delete', $informationComplementaire);
 
         if (!$informationComplementaire) {
             return response("Desole, l'Information Complementaire que vous essayez de supprimer n'existe pas !");

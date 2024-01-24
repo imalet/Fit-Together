@@ -54,9 +54,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->id === $post->user_id && $user->role->role === "ROLE_ADMIN"
-            ? Response::allow()
-            : Response::deny('Vous n\'avez pas le droit de mettre à jour cet article.');
+        return $user->id === $post->user_id;
     }
 
     /**

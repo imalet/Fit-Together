@@ -31,34 +31,34 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Gestion Authentification
 Route::post('/login', [UserAuthentificationController::class, 'login'])->name('login');
 Route::post('/register', [UserAuthentificationController::class, 'register'])->name('register');
-Route::post('/logout', [UserAuthentificationController::class, 'logout'])->name('logout');
-Route::post('/refresh', [UserAuthentificationController::class, 'refresh'])->name('refresh');
-Route::post('/updatePassword', [UserAuthentificationController::class, 'updatePassword'])->name('updatePassword');
 Route::get('/nonConnecte', [UserAuthentificationController::class, 'nonConnecte'])->name('nonConnecte');
+Route::post('/logout', [UserAuthentificationController::class, 'logout'])->name('logout')->middleware('auth:api');
+Route::post('/refresh', [UserAuthentificationController::class, 'refresh'])->name('refresh')->middleware('auth:api');
+Route::post('/updatePassword', [UserAuthentificationController::class, 'updatePassword'])->name('updatePassword')->middleware('auth:api');
 
 // Gestion des Users
 Route::get('/users', [UserController::class, 'index'])->name('user.list');
 Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
-Route::post('/user/{id}', [UserController::class, 'update'])->name('user.update');
-Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.delete');
+Route::post('/user/{id}', [UserController::class, 'update'])->name('user.update')->middleware('auth:api');
+Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.delete')->middleware('auth:api');
 
 // Gestion des Informations Complementaires
 Route::get('/informations/complementaires', [InformationComplementaireController::class, 'index'])->name('information.complementaire.list');
-Route::post('/information/complementaire', [InformationComplementaireController::class, 'store'])->name('information.complementaire.list.store');
 Route::get('/information/complementaire/{id}', [InformationComplementaireController::class, 'show'])->name('information.complementaire.list.show');
-Route::post('/information/complementaire/{id}', [InformationComplementaireController::class, 'update'])->name('information.complementaire.list.update');
-Route::delete('/information/complementaire/{id}', [InformationComplementaireController::class, 'destroy'])->name('information.complementaire.list.delete');
+Route::post('/information/complementaire', [InformationComplementaireController::class, 'store'])->name('information.complementaire.list.store')->middleware('auth:api', 'isCoach');
+Route::post('/information/complementaire/{id}', [InformationComplementaireController::class, 'update'])->name('information.complementaire.list.update')->middleware('auth:api', 'isCoach');
+Route::delete('/information/complementaire/{id}', [InformationComplementaireController::class, 'destroy'])->name('information.complementaire.list.delete')->middleware('auth:api', 'isCoach');
 
 // Gestion des Videos
 Route::get('/videos', [VideoController::class, 'index'])->name('video.list');
-Route::post('/video', [VideoController::class, 'store'])->name('video.store');
 Route::get('/video/{id}', [VideoController::class, 'show'])->name('video.show');
-Route::post('/video/{id}', [VideoController::class, 'update'])->name('video.update');
-Route::delete('/video/{id}', [VideoController::class, 'destroy'])->name('video.delete');
+Route::post('/video', [VideoController::class, 'store'])->name('video.store')->middleware('auth:api','isCoach');
+Route::post('/video/{id}', [VideoController::class, 'update'])->name('video.update')->middleware('auth:api', 'isCoach');
+Route::delete('/video/{id}', [VideoController::class, 'destroy'])->name('video.delete')->middleware('auth:api', 'isCoach');
 
 // Gestion des Posts
 Route::get('/posts', [PostController::class, 'index'])->name('post.list');
-Route::post('/post', [PostController::class, 'store'])->name('post.store')->middleware('auth:api');
 Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
+Route::post('/post', [PostController::class, 'store'])->name('post.store')->middleware('auth:api');
 Route::post('/post/{id}', [PostController::class, 'update'])->name('post.update')->middleware('auth:api');
-Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('post.delete');
+Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('post.delete')->middleware('auth:api');
