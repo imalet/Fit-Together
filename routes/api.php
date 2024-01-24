@@ -58,7 +58,7 @@ Route::delete('/video/{id}', [VideoController::class, 'destroy'])->name('video.d
 
 // Gestion des Posts
 Route::get('/posts', [PostController::class, 'index'])->name('post.list');
-Route::post('/post', [PostController::class, 'store'])->name('post.store');
+Route::post('/post', [PostController::class, 'store'])->name('post.store')->middleware('auth:api');
 Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
-Route::post('/post/{id}', [PostController::class, 'update'])->name('post.update');
+Route::post('/post/{id}', [PostController::class, 'update'])->name('post.update')->middleware('auth:api');
 Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('post.delete');

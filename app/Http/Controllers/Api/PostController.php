@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Cast\String_;
 
 class PostController extends Controller
 {
@@ -35,6 +36,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Post::class);
+
         $fileName = time() . "." . $request->path_image->extension();
 
         $image_path = $request->path_image->storeAs(
@@ -82,17 +85,19 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, String $id)
     {
         $post = Post::findOrFail($id);
+
+        $this->authorize('update', $post);
 
         $post->titre = $request->titre;
         $post->image = $request->image;
         $post->contenu = $request->contenu;
-        $post->update();
+        $post->save();
 
         return response()->json([
-            "Message" => "Modifier une Post",
+            "Message" => "Modifier un article",
             "Post" => new PostResource($post)
         ]);
     }
@@ -104,6 +109,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
+        $this->authorize('destroy', $post);
+
         if (!$post) {
             return response()->json([
                 "Message" => "Desole, le post que vous essayez de supprimer n'existe pas !"
@@ -111,7 +118,7 @@ class PostController extends Controller
         }
 
         $post->delete();
-        
+
         return response()->json([
             "Message" => "Supprimer un Post",
             "Post" => new PostResource($post)
