@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SousCategorieResource;
 use App\Models\SousCategorie;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class SousCategorieController extends Controller
     {
         $sousCategories = SousCategorie::all();
 
-        return response()->json(['data' => $sousCategories]);
+        return response()->json(['data' => SousCategorieResource::collection($sousCategories)]);
     }
 
     /**
@@ -41,7 +42,7 @@ class SousCategorieController extends Controller
         $sousCategorie->categorie_id = $request->categorie_id;
         $sousCategorie->save();
 
-        return response()->json(['message' => 'Sous-categorie created successfully', 'data' => $sousCategorie], 201);
+        return response()->json(['message' => 'Sous-categorie created successfully', 'data' => new SousCategorieResource($sousCategorie)], 201);
     }
 
     /**
@@ -49,7 +50,7 @@ class SousCategorieController extends Controller
      */
     public function show(SousCategorie $sousCategorie)
     {
-        return response()->json(['data' => $sousCategorie]);
+        return response()->json(['data' => new SousCategorieResource($sousCategorie)]);
     }
 
     /**
@@ -72,7 +73,7 @@ class SousCategorieController extends Controller
 
         $sousCategorie->update($request->all());
 
-        return response()->json(['message' => 'Sous-categorie updated successfully', 'data' => $sousCategorie]);
+        return response()->json(['message' => 'Sous-categorie updated successfully', 'data' => new SousCategorieResource($sousCategorie)]);
     }
 
 
@@ -83,6 +84,6 @@ class SousCategorieController extends Controller
     {
         $sousCategorie->delete();
 
-        return response()->json(['message' => 'Sous-categorie deleted successfully']);
+        return response()->json(['message' => 'Sous-categorie deleted successfully','Data' => new SousCategorieResource($sousCategorie)]);
     }
 }
