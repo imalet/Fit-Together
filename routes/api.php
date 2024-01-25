@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CategorieController;
 use App\Http\Controllers\Api\CommentaireController;
 use App\Http\Controllers\Api\InformationComplementaireController;
 use App\Http\Controllers\Api\PostController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Api\VideoController;
 use App\Models\InformationComplementaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -73,8 +75,16 @@ Route::post('/commentaire', [CommentaireController::class, 'store'])->name('comm
 Route::post('/commentaire/{id}', [CommentaireController::class, 'update'])->name('commentaire.update')->middleware('auth:api');
 Route::delete('/commentaire/{id}', [CommentaireController::class, 'destroy'])->name('commentaire.delete')->middleware('auth:api');
 
+// Gestion des Sous Categories
 Route::get('sous_categories', [SousCategorieController::class, 'index']);
 Route::get('sous_categorie/{sousCategorie}', [SousCategorieController::class, 'show']);
 Route::post('sous_categorie', [SousCategorieController::class, 'store']);
 Route::post('sous_categorie/{sousCategorie}', [SousCategorieController::class, 'update']);
 Route::delete('sous_categorie/{sousCategorie}', [SousCategorieController::class, 'destroy']);
+
+// Gestion des Categories
+Route::get('categories', [CategorieController::class, 'index']);
+Route::get('categorie/{categorie}', [CategorieController::class, 'show']);
+Route::post('categorie', [CategorieController::class, 'store']);
+Route::post('categorie/{categorie}', [CategorieController::class, 'update']);
+Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy']);

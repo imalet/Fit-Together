@@ -71,7 +71,9 @@ class SousCategorieController extends Controller
             'categorie_id' => 'required|exists:categories,id',
         ]);
 
-        $sousCategorie->update($request->all());
+        $sousCategorie->sous_categorie = $request->sous_categorie;
+        $sousCategorie->categorie_id = $request->categorie_id;
+        $sousCategorie->update();
 
         return response()->json(['message' => 'Sous-categorie updated successfully', 'data' => new SousCategorieResource($sousCategorie)]);
     }
