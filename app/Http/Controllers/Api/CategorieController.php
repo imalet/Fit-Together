@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategorieRequest\StoreCategorie;
+use App\Http\Requests\CategorieRequest\UpdateCategorie;
 use App\Http\Resources\CategorieResource;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CategorieController extends Controller
 {
@@ -22,11 +25,9 @@ class CategorieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategorie $request)
     {
-        $request->validate([
-            'categorie' => 'required',
-        ]);
+        $request->validated();
 
         $category = Categorie::create($request->all());
 
@@ -36,19 +37,22 @@ class CategorieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Categorie $categorie)
+    public function show($id)
     {
-        return new CategorieResource($categorie);
+        try {
+            $categorie = Categorie::findOrFail($id);
+            return new CategorieResource($categorie);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categorie $categorie)
+    public function update(UpdateCategorie $request, Categorie $categorie)
     {
-        $request->validate([
-            'categorie' => 'required',
-        ]);
+        $request->validated();
 
         $categorie->categorie = $request->categorie;
         $categorie->update();
@@ -61,8 +65,8 @@ class CategorieController extends Controller
      */
     public function destroy(Categorie $categorie)
     {
+        
         $categorie->delete();
-
         return response()->json(['message' => 'Category deleted successfully']);
     }
 }
