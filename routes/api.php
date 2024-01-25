@@ -3,12 +3,14 @@
 use App\Http\Controllers\Api\CommentaireController;
 use App\Http\Controllers\Api\InformationComplementaireController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\SousCategorieController;
 use App\Http\Controllers\Api\UserAuthentificationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VideoController;
 use App\Models\InformationComplementaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -70,3 +72,9 @@ Route::get('/commentaire/{id}', [CommentaireController::class, 'show'])->name('c
 Route::post('/commentaire', [CommentaireController::class, 'store'])->name('commentaire.store')->middleware('auth:api');
 Route::post('/commentaire/{id}', [CommentaireController::class, 'update'])->name('commentaire.update')->middleware('auth:api');
 Route::delete('/commentaire/{id}', [CommentaireController::class, 'destroy'])->name('commentaire.delete')->middleware('auth:api');
+
+Route::get('sous_categories', [SousCategorieController::class, 'index']);
+Route::get('sous_categorie/{sousCategorie}', [SousCategorieController::class, 'show']);
+Route::post('sous_categorie', [SousCategorieController::class, 'store']);
+Route::post('sous_categorie/{sousCategorie}', [SousCategorieController::class, 'update']);
+Route::delete('sous_categorie/{sousCategorie}', [SousCategorieController::class, 'destroy']);

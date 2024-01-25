@@ -22,7 +22,7 @@ class VideoFactory extends Factory
             'path_video' => "videos/".fake()->imageUrl(),
             'duree' => "10 min",
             'user_id' => 1,
-            'categorie_id' => 1,
+            'sous_categorie_id' => 1,
         ];
     }
 }

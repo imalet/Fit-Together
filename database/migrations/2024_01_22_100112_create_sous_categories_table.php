@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Categorie;
-use App\Models\SousCategorie;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,13 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('videos', function (Blueprint $table) {
+        Schema::create('sous_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('titre');
-            $table->string('path_video');
-            $table->string('duree');
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(SousCategorie::class)->constrained()->cascadeOnDelete();
+            $table->string('sous_categorie');
+            $table->foreignIdFor(Categorie::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('videos');
+        Schema::dropIfExists('sous_categories');
     }
 };

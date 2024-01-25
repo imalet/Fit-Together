@@ -8,6 +8,7 @@ use App\Models\Categorie;
 use App\Models\InformationComplementaire;
 use App\Models\Post;
 use App\Models\Role;
+use App\Models\SousCategorie;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Seeder;
@@ -20,11 +21,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        Role::factory(3)
+        Role::factory(2)
             ->has(User::factory()->count(2))
             ->create();
         
         Categorie::factory(2)
+            ->create();
+        
+        SousCategorie::factory(2)
             ->has(Video::factory()->count(2))
             ->create();
 
