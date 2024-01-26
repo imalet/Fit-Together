@@ -63,10 +63,24 @@ class CategorieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categorie $categorie)
+    public function destroy(String $id)
     {
-        
+
+        // $categorie->delete();
+        // return response()->json(['message' => 'Category deleted successfully']);
+
+        $categorie = Categorie::find($id);
+
+        // $this->authorize('delete', $categorie);
+
+        if (!$categorie) {
+            return response()->json([
+                "Message" => "L'information Complementaire avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
+
         $categorie->delete();
-        return response()->json(['message' => 'Category deleted successfully']);
+
+        return response()->json(['message' => 'Sous-categorie deleted successfully', 'Data' => new CategorieResource($categorie)]);
     }
 }

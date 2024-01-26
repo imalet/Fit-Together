@@ -163,10 +163,6 @@ class InformationComplementaireController extends Controller
 
         $this->authorize('delete', $informationComplementaire);
 
-        if (!$informationComplementaire) {
-            return response("Desole, l'Information Complementaire que vous essayez de supprimer n'existe pas !");
-        }
-
         $informationComplementaire->delete();
 
         return response()->json([
