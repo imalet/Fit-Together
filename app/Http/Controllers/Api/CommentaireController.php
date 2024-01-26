@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommentaireRequest\StoreCommentaire;
 use App\Http\Resources\CommentaireResource;
 use App\Models\Commentaire;
 use Illuminate\Http\Request;
@@ -23,24 +24,17 @@ class CommentaireController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+
+    public function store(StoreCommentaire $request)
     {
         $this->authorize('create', Commentaire::class);
 
         $newCommentaire = new Commentaire();
         $newCommentaire->user_id = $request->user()->id;
-        $newCommentaire->contenu = $request->contenu;
-        $newCommentaire->video_id = $request->video_id;
+        $newCommentaire->contenu = $request->input('contenu');
+        $newCommentaire->video_id = $request->input('video_id');
 
         if ($newCommentaire->save()) {
             return response()->json([
@@ -48,8 +42,9 @@ class CommentaireController extends Controller
                 "Nouvelles Informations" => new CommentaireResource($newCommentaire)
             ]);
         }
+
         return response()->json([
-            "Message" => "Insertion d'un Nouvelles information Echoué"
+            "Message" => "Insertion d'un Nouvelles information Échouée"
         ]);
     }
 
@@ -58,7 +53,13 @@ class CommentaireController extends Controller
      */
     public function show(string $id)
     {
-        $commentaires = Commentaire::findOrFail($id);
+        $commentaires = Commentaire::find($id);
+
+        if (!$commentaires) {
+            return response()->json([
+                "Message" => "Le Commentaire avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
 
         return response()->json([
             "Message" => "Tous les Commentaires",
@@ -79,7 +80,13 @@ class CommentaireController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $newCommentaire = Commentaire::findOrFail($id);
+        $newCommentaire = Commentaire::find($id);
+
+        if (!$newCommentaire) {
+            return response()->json([
+                "Message" => "Le Commentaire avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
 
         $this->authorize('update', $newCommentaire);
 
@@ -101,16 +108,21 @@ class CommentaireController extends Controller
      */
     public function destroy(string $id)
     {
-        $commentaire = Commentaire::findOrFail($id);
+        $commentaire = Commentaire::find($id);
+
+        if (!$commentaire) {
+            return response()->json([
+                "Message" => "Le Commentaire avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
 
         $this->authorize('update', $commentaire);
-        
+
         if ($commentaire->delete()) {
             return response()->json([
                 "Message" => "Le commentaire a etait supprimer avec Success",
                 "Commentaire Supprimé" => new CommentaireResource($commentaire)
             ]);
         };
-
     }
 }
