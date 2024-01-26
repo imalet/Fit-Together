@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentaireRequest\StoreCommentaire;
+use App\Http\Requests\CommentaireRequest\UpdateCommentaire;
 use App\Http\Resources\CommentaireResource;
 use App\Models\Commentaire;
 use Illuminate\Http\Request;
@@ -78,7 +79,32 @@ class CommentaireController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    // public function update(Request $request, string $id)
+    // {
+    //     $newCommentaire = Commentaire::find($id);
+
+    //     if (!$newCommentaire) {
+    //         return response()->json([
+    //             "Message" => "Le Commentaire avec l'identifiant $id n'existe pas."
+    //         ], 404);
+    //     }
+
+    //     $this->authorize('update', $newCommentaire);
+
+    //     $newCommentaire->contenu = $request->contenu;
+
+    //     if ($newCommentaire->save()) {
+    //         return response()->json([
+    //             "Message" => "Modification d'un Commentaire Réussi",
+    //             "Nouvelles Informations" => new CommentaireResource($newCommentaire)
+    //         ]);
+    //     }
+    //     return response()->json([
+    //         "Message" => "Modification d'un commentaire Echoué"
+    //     ]);
+    // }
+
+    public function update(UpdateCommentaire $request, string $id)
     {
         $newCommentaire = Commentaire::find($id);
 
@@ -90,7 +116,7 @@ class CommentaireController extends Controller
 
         $this->authorize('update', $newCommentaire);
 
-        $newCommentaire->contenu = $request->contenu;
+        $newCommentaire->contenu = $request->input('contenu');
 
         if ($newCommentaire->save()) {
             return response()->json([
@@ -98,8 +124,9 @@ class CommentaireController extends Controller
                 "Nouvelles Informations" => new CommentaireResource($newCommentaire)
             ]);
         }
+
         return response()->json([
-            "Message" => "Modification d'un commentaire Echoué"
+            "Message" => "Modification d'un commentaire Échouée"
         ]);
     }
 
