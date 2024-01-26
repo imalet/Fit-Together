@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\SousCategorieController;
 use App\Http\Controllers\Api\UserAuthentificationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VideoController;
-use App\Models\InformationComplementaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

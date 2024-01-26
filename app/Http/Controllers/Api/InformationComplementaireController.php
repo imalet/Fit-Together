@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\InformationComplementaireRequest\StoreInformationComplementaire;
+use App\Http\Requests\InformationComplementaireRequest\UpdateInformationComplementaire;
 use App\Http\Resources\InformationCompleteResource;
 use App\Models\InformationComplementaire;
 use Illuminate\Auth\Middleware\Authorize;
@@ -34,34 +36,58 @@ class InformationComplementaireController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    // public function store(Request $request)
+    // {
 
+    //     $this->authorize('create', InformationComplementaire::class);
+
+    //     $informationComplementaire = new InformationComplementaire();
+    //     $informationComplementaire->user_id = $request->user()->id;
+    //     $informationComplementaire->bio = $request->bio;
+    //     $informationComplementaire->qualification = $request->qualification;
+    //     $informationComplementaire->experience = $request->experience;
+
+    //     if ($informationComplementaire->save()) {
+    //         return response()->json([
+    //             "Message" => "Information Complementaires Ajouté avec Success !",
+    //             "Information Complementaire" => new InformationCompleteResource($informationComplementaire)
+    //         ], 200);
+    //     }
+    //     return response("Ajout d'Information Complementaires Echoué !");
+    // }
+
+    public function store(StoreInformationComplementaire $request)
+    {
         $this->authorize('create', InformationComplementaire::class);
 
         $informationComplementaire = new InformationComplementaire();
         $informationComplementaire->user_id = $request->user()->id;
-        $informationComplementaire->bio = $request->bio;
-        $informationComplementaire->qualification = $request->qualification;
-        $informationComplementaire->experience = $request->experience;
+        $informationComplementaire->bio = $request->input('bio');
+        $informationComplementaire->qualification = $request->input('qualification');
+        $informationComplementaire->experience = $request->input('experience');
 
         if ($informationComplementaire->save()) {
             return response()->json([
-                "Message" => "Information Complementaires Ajouté avec Success !",
+                "Message" => "Informations Complementaires Ajoutées avec Succès !",
                 "Information Complementaire" => new InformationCompleteResource($informationComplementaire)
             ], 200);
         }
-        return response("Ajout d'Information Complementaires Echoué !");
-    }
 
+        return response("Ajout d'Informations Complementaires Échoué !");
+    }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $informationComplementaire = InformationComplementaire::findOrFail($id);
+        $informationComplementaire = InformationComplementaire::find($id);
 
+        if (!$informationComplementaire) {
+            return response()->json([
+                "Message" => "L'information Complementaire avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
 
         return response()->json([
             "Message" => "Affichage d'une Video",
@@ -80,24 +106,44 @@ class InformationComplementaireController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    // public function update(Request $request, string $id)
+    // {
+
+    //     $informationComplementaire = InformationComplementaire::findOrFail($id);
+
+    //     $this->authorize('update', $informationComplementaire);
+
+    //     $informationComplementaire->bio = $request->bio;
+    //     $informationComplementaire->qualification = $request->qualification;
+    //     $informationComplementaire->experience = $request->experience;
+
+    //     if ($informationComplementaire->save()) {
+    //         return response()->json([
+    //             "Message" => "Information Complementaires Modifié avec Success !",
+    //             "Information Complementaires" => new InformationCompleteResource($informationComplementaire)
+    //         ], 200);
+    //     }
+    //     return response("Moficication d'Information Complementaires Echoué !");
+    // }
+
+    public function update(UpdateInformationComplementaire $request, string $id)
     {
+        $informationComplementaire = InformationComplementaire::find($id);
 
-        $informationComplementaire = InformationComplementaire::findOrFail($id);
+        $this->authorize('update', $informationComplementaire);
 
-        $this->authorize('update',$informationComplementaire);
-
-        $informationComplementaire->bio = $request->bio;
-        $informationComplementaire->qualification = $request->qualification;
-        $informationComplementaire->experience = $request->experience;
+        $informationComplementaire->bio = $request->input('bio');
+        $informationComplementaire->qualification = $request->input('qualification');
+        $informationComplementaire->experience = $request->input('experience');
 
         if ($informationComplementaire->save()) {
             return response()->json([
-                "Message" => "Information Complementaires Modifié avec Success !",
+                "Message" => "Informations Complementaires Modifiées avec Succès !",
                 "Information Complementaires" => new InformationCompleteResource($informationComplementaire)
             ], 200);
         }
-        return response("Moficication d'Information Complementaires Echoué !");
+
+        return response("Modification d'Informations Complementaires Échouée !");
     }
 
 
@@ -107,7 +153,13 @@ class InformationComplementaireController extends Controller
      */
     public function destroy(string $id)
     {
-        $informationComplementaire = InformationComplementaire::findOrFail($id);
+        $informationComplementaire = InformationComplementaire::find($id);
+
+        if (!$informationComplementaire) {
+            return response()->json([
+                "Message" => "L'information Complementaire avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
 
         $this->authorize('delete', $informationComplementaire);
 
