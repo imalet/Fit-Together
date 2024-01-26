@@ -6,8 +6,10 @@ namespace App\Providers;
 
 use App\Models\InformationComplementaire;
 use App\Models\Post;
+use App\Models\User;
 use App\Policies\InformationComplementairePolicy;
 use App\Policies\PostPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -20,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Post::class => PostPolicy::class,
         InformationComplementaire::class => InformationComplementairePolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

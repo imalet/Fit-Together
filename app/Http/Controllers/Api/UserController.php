@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest\UpdateUser;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,8 +44,13 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
-        // return new UserResource($user);
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                "Message" => "l'Utilisateur avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
 
         return response()->json([
             "Message" => "Affichage d'un Utilisateur",
@@ -63,11 +69,35 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $fileName = time() . "." . $request->photoProfil->extension();
+    // public function update(Request $request, string $id)
+    // {
+    //     $fileName = time() . "." . $request->photoProfil->extension();
 
-        $image_path = $request->photoProfil->storeAs(
+    //     $image_path = $request->photoProfil->storeAs(
+    //         'images_profil',
+    //         $fileName,
+    //         'public'
+    //     );
+
+    //     $newData = User::findOrFail($id);
+    //     $newData->photoProfil = $image_path;
+    //     $newData->nom = $request->nom;
+    //     $newData->prenom = $request->prenom;
+    //     $newData->email = $request->email;
+
+    //     if ($newData->save()) {
+    //         return response()->json([
+    //             "Nouvel Donne de l'Utilisateur" => new UserResource($newData),
+    //             "Message" => "Modification d'un Utilisateur Réussi !"
+    //         ], 200);
+    //     }
+    // }
+
+    public function update(UpdateUser $request, string $id)
+    {
+        $fileName = time() . "." . $request->file('photoProfil')->extension();
+
+        $image_path = $request->file('photoProfil')->storeAs(
             'images_profil',
             $fileName,
             'public'
@@ -81,10 +111,12 @@ class UserController extends Controller
 
         if ($newData->save()) {
             return response()->json([
-                "Nouvel Donne de l'Utilisateur" => new UserResource($newData),
-                "Message" => "Modification d'un Utilisateur Réussi !"
+                "Nouvelle Donnée de l'Utilisateur" => new UserResource($newData),
+                "Message" => "Modification d'un Utilisateur Réussie !"
             ], 200);
         }
+
+        return response("Modification de l'Utilisateur échouée");
     }
 
     /**
@@ -92,6 +124,22 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+
+
+        if (!$user) {
+            return response()->json([
+                "Message" => "Le post avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
+
+        $this->authorize('delete', $user);
+
+        $user->delete();
+
+        return response()->json([
+            "Message" => "Supprimer une Video",
+            "Video" => new UserResource($user)
+        ]);
     }
 }

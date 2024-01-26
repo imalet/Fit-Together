@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VideoRequest\StoreVideo;
+use App\Http\Requests\VideoRequest\UpdateVideo;
 use App\Http\Resources\VideoResource;
 use App\Models\User;
 use App\Models\Video;
 use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
@@ -36,13 +39,40 @@ class VideoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    // public function store(Request $request)
+    // {
+    //     $this->authorize('create', Video::class);
+
+    //     $fileName = time() . "." . $request->path_video->extension();
+
+    //     $video_path = $request->path_video->storeAs(
+    //         'videos_posts',
+    //         $fileName,
+    //         'public'
+    //     );
+
+    //     $newVideo = new Video();
+    //     $newVideo->titre = $request->titre;
+    //     $newVideo->path_video = $video_path;
+    //     $newVideo->duree = $request->duree;
+    //     $newVideo->user_id = $request->user()->id;
+    //     $newVideo->sous_categorie_id = $request->sous_categorie_id;
+
+    //     if ($newVideo->save()) {
+    //         return response()->json([
+    //             "Message" => "Video Ajouté avec Success !",
+    //             "Vidéo Ajouté" => new VideoResource($newVideo)
+    //         ], 200);
+    //     }
+    //     return response("Video Ajoué avec Success !");
+    // }
+    public function store(StoreVideo $request)
     {
         $this->authorize('create', Video::class);
 
-        $fileName = time() . "." . $request->path_video->extension();
+        $fileName = time() . "." . $request->file('path_video')->extension();
 
-        $video_path = $request->path_video->storeAs(
+        $video_path = $request->file('path_video')->storeAs(
             'videos_posts',
             $fileName,
             'public'
@@ -53,15 +83,16 @@ class VideoController extends Controller
         $newVideo->path_video = $video_path;
         $newVideo->duree = $request->duree;
         $newVideo->user_id = $request->user()->id;
-        $newVideo->categorie_id = $request->categorie_id;
+        $newVideo->sous_categorie_id = $request->sous_categorie_id;
 
         if ($newVideo->save()) {
             return response()->json([
-                "Message" => "Video Ajouté avec Success !",
-                "Vidéo Ajouté" => new VideoResource($newVideo)
+                "Message" => "Vidéo ajoutée avec succès !",
+                "Vidéo ajoutée" => new VideoResource($newVideo)
             ], 200);
         }
-        return response("Video Ajoué avec Success !");
+
+        return response("Ajout de la vidéo échoué");
     }
 
     /**
@@ -69,20 +100,18 @@ class VideoController extends Controller
      */
     public function show(String $id)
     {
-        $video = Video::findOrFail($id);
+        $video = Video::find($id);
+
+        if (!$video) {
+            return response()->json([
+                "Message" => "Le post avec l'identifiant $id n'existe pas."
+            ], 404);
+        }
 
         return response()->json([
             "Message" => "Affichage d'une Video",
             "Information de la Video" => new VideoResource($video)
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -92,8 +121,7 @@ class VideoController extends Controller
     // {
     //     $video = Video::findOrFail($id);
 
-    //     $this->authorize('update', Video::class);
-
+    //     $this->authorize('update', $video);
 
     //     $video->titre = $request->titre;
     //     $video->path_video = $request->path_video;
@@ -105,21 +133,46 @@ class VideoController extends Controller
     //         "Nouvelle Informations" => new VideoResource($video)
     //     ]);
     // }
-    public function update(Request $request, string $id)
+
+    public function update(UpdateVideo $request, string $id)
     {
-        $video = Video::findOrFail($id);
+        $video = Video::find($id);
 
         $this->authorize('update', $video);
 
-        $video->titre = $request->titre;
-        $video->path_video = $request->path_video;
-        $video->duree = $request->duree;
-        $video->update();
+        // Validation des champs
+        // $request->validate($request->rules(), $request->messages());
 
-        return response()->json([
-            "Message" => "Modifier une Video",
-            "Nouvelle Informations" => new VideoResource($video)
-        ]);
+        // Mise à jour des champs de la vidéo
+        $video->titre = $request->titre;
+        $video->duree = $request->duree;
+        $video->sous_categorie_id = $request->sous_categorie_id;
+
+        // Mise à jour du chemin de la vidéo si un nouveau fichier est fourni
+        if ($request->hasFile('path_video')) {
+            // Supprimer l'ancienne vidéo si elle existe
+            Storage::disk('public')->delete($video->path_video);
+
+            // Enregistrer la nouvelle vidéo
+            $fileName = time() . "." . $request->file('path_video')->extension();
+            $video_path = $request->file('path_video')->storeAs(
+                'videos_posts',
+                $fileName,
+                'public'
+            );
+
+            $video->path_video = $video_path;
+        }
+
+        // Sauvegarde des modifications
+        if ($video->save()) {
+            return response()->json([
+                "Message" => "Vidéo mise à jour avec succès !",
+                "Information de la Vidéo" => new VideoResource($video)
+            ], 200);
+        }
+
+        return response("Mise à jour de la vidéo échouée");
     }
 
     /**
@@ -127,14 +180,17 @@ class VideoController extends Controller
      */
     public function destroy(string $id)
     {
-        
-        $video = Video::findOrFail($id);
-        $this->authorize('delete', $video);
+
+        $video = Video::find($id);
 
         if (!$video) {
-            return response("Desole, la video que vous essayez de supprimer n'existe pas !");
+            return response()->json([
+                "Message" => "Le post avec l'identifiant $id n'existe pas."
+            ], 404);
         }
 
+        $this->authorize('delete', $video);
+        
         $video->delete();
 
         return response()->json([
