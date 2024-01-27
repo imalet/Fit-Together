@@ -83,4 +83,9 @@ class User extends Authenticatable implements JWTSubject
   {
     return $this->hasMany(Commentaire::class);
   }
+
+  public function videoRegarde()
+  {
+    return $this->hasMany(VideoRegarde::class);
+  }
 }

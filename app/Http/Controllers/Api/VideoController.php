@@ -31,41 +31,12 @@ class VideoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $this->authorize('create', Video::class);
 
-    //     $fileName = time() . "." . $request->path_video->extension();
-
-    //     $video_path = $request->path_video->storeAs(
-    //         'videos_posts',
-    //         $fileName,
-    //         'public'
-    //     );
-
-    //     $newVideo = new Video();
-    //     $newVideo->titre = $request->titre;
-    //     $newVideo->path_video = $video_path;
-    //     $newVideo->duree = $request->duree;
-    //     $newVideo->user_id = $request->user()->id;
-    //     $newVideo->sous_categorie_id = $request->sous_categorie_id;
-
-    //     if ($newVideo->save()) {
-    //         return response()->json([
-    //             "Message" => "Video Ajouté avec Success !",
-    //             "Vidéo Ajouté" => new VideoResource($newVideo)
-    //         ], 200);
-    //     }
-    //     return response("Video Ajoué avec Success !");
-    // }
     public function store(StoreVideo $request)
     {
         $this->authorize('create', Video::class);

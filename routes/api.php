@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\SousCategorieController;
 use App\Http\Controllers\Api\UserAuthentificationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VideoController;
+use App\Http\Controllers\Api\VideoRegardeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -87,3 +88,10 @@ Route::get('categorie/{categorie}', [CategorieController::class, 'show']);
 Route::post('categorie', [CategorieController::class, 'store'])->middleware('auth:api', 'isAdmin');
 Route::post('categorie/{categorie}', [CategorieController::class, 'update'])->middleware('auth:api', 'isAdmin');
 Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy'])->middleware('auth:api', 'isAdmin');
+
+// Gestion des Video Regarde
+Route::get('videoRegardes', [VideoRegardeController::class, 'index']);
+Route::get('videoRegarde/{id}', [VideoRegardeController::class, 'show']);
+Route::post('videoRegarde', [VideoRegardeController::class, 'store']);
+Route::post('videoRegarde/{id}', [VideoRegardeController::class, 'update']);
+Route::delete('videoRegarde/{id}', [VideoRegardeController::class, 'destroy']);
