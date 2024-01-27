@@ -4,13 +4,16 @@ use App\Http\Controllers\Api\CategorieController;
 use App\Http\Controllers\Api\CommentaireController;
 use App\Http\Controllers\Api\InformationComplementaireController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\SousCategorieController;
 use App\Http\Controllers\Api\UserAuthentificationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VideoController;
 use App\Http\Controllers\Api\VideoRegardeController;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -90,8 +93,14 @@ Route::post('categorie/{categorie}', [CategorieController::class, 'update'])->mi
 Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy'])->middleware('auth:api', 'isAdmin');
 
 // Gestion des Video Regarde
-Route::get('videoRegardes', [VideoRegardeController::class, 'index']);
-Route::get('videoRegarde/{id}', [VideoRegardeController::class, 'show']);
-Route::post('videoRegarde', [VideoRegardeController::class, 'store']);
-Route::post('videoRegarde/{id}', [VideoRegardeController::class, 'update']);
-Route::delete('videoRegarde/{id}', [VideoRegardeController::class, 'destroy']);
+Route::get('videoRegardes', [VideoRegardeController::class, 'index'])->middleware('auth:api', 'isCoach');
+Route::get('videoRegarde/{id}', [VideoRegardeController::class, 'show'])->middleware('auth:api', 'isUser', 'isCoach');
+Route::post('videoRegarde', [VideoRegardeController::class, 'store'])->middleware('auth:api', 'isUser');
+Route::delete('videoRegarde/{id}', [VideoRegardeController::class, 'destroy'])->middleware('auth:api','isUser');
+
+// Gestion des Roles
+Route::get('roles', [RoleController::class, 'index'])->middleware('auth:api', 'isAdmin');
+Route::get('role/{id}', [RoleController::class, 'show'])->middleware('auth:api', 'isAdmin');
+Route::post('role', [RoleController::class, 'store'])->middleware('auth:api', 'isAdmin');
+Route::post('role/{id}', [RoleController::class, 'update'])->middleware('auth:api', 'isAdmin');
+Route::delete('role/{id}', [RoleController::class, 'destroy'])->middleware('auth:api', 'isAdmin');

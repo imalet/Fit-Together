@@ -8,6 +8,7 @@ use App\Http\Resources\VideoRegardeResource;
 use App\Models\VideoRegarde;
 use Illuminate\Http\Client\ResponseSequence;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoRegardeController extends Controller
 {
@@ -16,19 +17,40 @@ class VideoRegardeController extends Controller
      */
     public function index()
     {
-        $videos = VideoRegarde::all();
+        $createurId = 5;
+        
+        // $videoRegarde = VideoRegarde::find(1);
+        // $video = $videoRegarde->video->user_id;
+        // $createurVideo = $videoRegarde->user->nom;
+
+        $videosRegardees = VideoRegarde::whereHas('video', function ($query) use ($createurId) {
+            $query->where('user_id', $createurId);
+        })->get();
+
 
         return response()->json([
             "Message" => "Lister Toutes les videos",
-            "Videos" => VideoRegardeResource::collection($videos)
+            "Videos" => VideoRegardeResource::collection($videosRegardees)
         ]);
     }
+
+    // public function index()
+    // {
+    //     $videos = VideoRegarde::all();
+
+    //     return response()->json([
+    //         "Message" => "Lister Toutes les videos",
+    //         "Videos" => VideoRegardeResource::collection($videos)
+    //     ]);
+    // }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreVideoRegarde $request)
     {
+        $this->authorize('create', VideoRegarde::class);
+
         $newVideoRegarde = new VideoRegarde();
         $newVideoRegarde->user_id = $request->input('user_id');
         $newVideoRegarde->video_id = $request->input('video_id');
@@ -51,6 +73,7 @@ class VideoRegardeController extends Controller
     public function show(String $id)
     {
         $videoRegarde = VideoRegarde::find($id);
+        
 
         if (!$videoRegarde) {
             return response()->json([
