@@ -18,10 +18,10 @@ class VideoRegardeController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/videos",
+     *     path="/api/videoRegardes",
      *     summary="Liste toutes les vidéos",
      *     description="Récupère la liste de toutes les vidéos disponibles.",
-     *     tags={"Video"},
+     *     tags={"Video Regardé"},
      *     @OA\Response(
      *         response=200,
      *         description="Liste de vidéos récupérée avec succès",
@@ -62,10 +62,10 @@ class VideoRegardeController extends Controller
      */
     /**
      * @OA\Post(
-     *     path="/api/video",
+     *     path="/api/videoRegarde",
      *     summary="Ajout d'une vidéo à regarder",
      *     description="Ajoute une vidéo à la liste des vidéos à regarder.",
-     *     tags={"Video"},
+     *     tags={"Video Regardé"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -137,10 +137,10 @@ class VideoRegardeController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/video/{id}",
+     *     path="/api/videoRegarde/{id}",
      *     summary="Affichage d'une vidéo regardée",
      *     description="Affiche les informations détaillées d'une vidéo regardée en fonction de son identifiant.",
-     *     tags={"Video"},
+     *     tags={"Video Regardé"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -204,7 +204,7 @@ class VideoRegardeController extends Controller
      *     path="/api/video/{id}",
      *     summary="Suppression d'une vidéo regardée",
      *     description="Supprime une vidéo regardée en fonction de son identifiant.",
-     *     tags={"Video"},
+     *     tags={"Video Regardé"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",

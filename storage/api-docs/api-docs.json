@@ -3673,11 +3673,749 @@
         "/api/videos": {
             "get": {
                 "tags": [
-                    "Video"
+                    "Vidéos"
+                ],
+                "summary": "Liste de toutes les vidéos",
+                "description": "Récupère la liste de toutes les vidéos disponibles.",
+                "operationId": "2090c29a8b2a49778e2de02f54ec7606",
+                "responses": {
+                    "200": {
+                        "description": "Liste de toutes les vidéos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Lister Toutes les vidéos"
+                                        },
+                                        "Videos": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "titre": {
+                                                        "type": "string",
+                                                        "example": "Titre de la vidéo"
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": "https://exemple.com/video/1"
+                                                    },
+                                                    "categorie_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29T12:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29T12:30:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/video": {
+            "post": {
+                "tags": [
+                    "Vidéos"
+                ],
+                "summary": "Ajouter une nouvelle vidéo",
+                "description": "Ajoute une nouvelle vidéo à la base de données.",
+                "operationId": "5e0fe88c38ef76e5b2b9484b5ee504e2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "titre": {
+                                        "type": "string",
+                                        "example": "Titre de la vidéo"
+                                    },
+                                    "path_video": {
+                                        "type": "file",
+                                        "format": "binary",
+                                        "example": "chemin/vers/la/video.mp4"
+                                    },
+                                    "duree": {
+                                        "type": "integer",
+                                        "example": 120
+                                    },
+                                    "sous_categorie_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vidéo ajoutée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Vidéo ajoutée avec succès !"
+                                        },
+                                        "Vidéo ajoutée": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "titre": {
+                                                    "type": "string",
+                                                    "example": "Titre de la vidéo"
+                                                },
+                                                "path_video": {
+                                                    "type": "string",
+                                                    "example": "chemin/vers/la/video.mp4"
+                                                },
+                                                "duree": {
+                                                    "type": "integer",
+                                                    "example": 120
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "sous_categorie_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Les données fournies sont invalides."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/video/{id}": {
+            "get": {
+                "tags": [
+                    "Vidéos"
+                ],
+                "summary": "Afficher les détails d'une vidéo",
+                "description": "Récupère les détails d'une vidéo en fonction de son identifiant.",
+                "operationId": "f95cd9ba51546cf87706c2caf0521f9c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de la vidéo",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails de la vidéo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Affichage d'une Video"
+                                        },
+                                        "Information de la Video": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "titre": {
+                                                    "type": "string",
+                                                    "example": "Titre de la vidéo"
+                                                },
+                                                "path_video": {
+                                                    "type": "string",
+                                                    "example": "chemin/vers/la/video.mp4"
+                                                },
+                                                "duree": {
+                                                    "type": "integer",
+                                                    "example": 120
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "sous_categorie_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vidéo non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "La vidéo avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Video Regardé"
+                ],
+                "summary": "Suppression d'une vidéo regardée",
+                "description": "Supprime une vidéo regardée en fonction de son identifiant.",
+                "operationId": "8c6411f9bf5eb7df47a2726837cf7cd9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de la vidéo regardée",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vidéo supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Supprimer une Video"
+                                        },
+                                        "Vidéo Supprimé": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "video_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Video Regardé non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Une Video Regardé avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Vous n'avez pas le droit de supprimer cette vidéo."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/videos/{id}": {
+            "put": {
+                "tags": [
+                    "Vidéos"
+                ],
+                "summary": "Mettre à jour une vidéo",
+                "description": "Met à jour les détails d'une vidéo en fonction de son identifiant.",
+                "operationId": "296d69c432834f8ae560cc6917ad3d87",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de la vidéo à mettre à jour",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Objet JSON contenant les nouvelles informations de la vidéo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titre": {
+                                        "type": "string",
+                                        "example": "Nouveau Titre de la vidéo"
+                                    },
+                                    "duree": {
+                                        "type": "integer",
+                                        "example": 150
+                                    },
+                                    "sous_categorie_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "path_video": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vidéo mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Vidéo mise à jour avec succès !"
+                                        },
+                                        "Information de la Vidéo": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "titre": {
+                                                    "type": "string",
+                                                    "example": "Nouveau Titre de la vidéo"
+                                                },
+                                                "path_video": {
+                                                    "type": "string",
+                                                    "example": "chemin/vers/la/nouvelle/video.mp4"
+                                                },
+                                                "duree": {
+                                                    "type": "integer",
+                                                    "example": 150
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "sous_categorie_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:45:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vidéo non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "La vidéo avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Validation échouée"
+                                        },
+                                        "Erreurs": {
+                                            "properties": {
+                                                "titre": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Erreur sur le titre"
+                                                    }
+                                                },
+                                                "duree": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Erreur sur la durée"
+                                                    }
+                                                },
+                                                "sous_categorie_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Erreur sur la sous-catégorie"
+                                                    }
+                                                },
+                                                "path_video": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Erreur sur la vidéo"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Vidéos"
+                ],
+                "summary": "Supprimer une vidéo",
+                "description": "Supprime une vidéo en fonction de son identifiant.",
+                "operationId": "b8887a2f4df0b20670119bbb04b51e11",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de la vidéo à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vidéo supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Supprimer une Video"
+                                        },
+                                        "Video": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "titre": {
+                                                    "type": "string",
+                                                    "example": "Titre de la vidéo"
+                                                },
+                                                "path_video": {
+                                                    "type": "string",
+                                                    "example": "chemin/vers/la/video.mp4"
+                                                },
+                                                "duree": {
+                                                    "type": "integer",
+                                                    "example": 120
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "sous_categorie_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:45:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vidéo non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "La vidéo avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/videoRegardes": {
+            "get": {
+                "tags": [
+                    "Video Regardé"
                 ],
                 "summary": "Liste toutes les vidéos",
                 "description": "Récupère la liste de toutes les vidéos disponibles.",
-                "operationId": "a6941edad984f8f673fe335e980a3c88",
+                "operationId": "07f9ce4b35209bc2233fc9905abf7388",
                 "responses": {
                     "200": {
                         "description": "Liste de vidéos récupérée avec succès",
@@ -3744,14 +4482,14 @@
                 }
             }
         },
-        "/api/video": {
+        "/api/videoRegarde": {
             "post": {
                 "tags": [
-                    "Video"
+                    "Video Regardé"
                 ],
                 "summary": "Ajout d'une vidéo à regarder",
                 "description": "Ajoute une vidéo à la liste des vidéos à regarder.",
-                "operationId": "c4cd8824589dcc7e7f968e85fac5af5a",
+                "operationId": "9be46cbdb3c6fce62e7397a174194926",
                 "requestBody": {
                     "description": "Informations de la vidéo à ajouter",
                     "required": true,
@@ -3875,14 +4613,14 @@
                 ]
             }
         },
-        "/api/video/{id}": {
+        "/api/videoRegarde/{id}": {
             "get": {
                 "tags": [
-                    "Video"
+                    "Video Regardé"
                 ],
                 "summary": "Affichage d'une vidéo regardée",
                 "description": "Affiche les informations détaillées d'une vidéo regardée en fonction de son identifiant.",
-                "operationId": "8641f67ea0f274dd5fae979f2a410520",
+                "operationId": "e004f9503e9950e19922ef8f8bd799b3",
                 "parameters": [
                     {
                         "name": "id",
@@ -3955,107 +4693,6 @@
                         }
                     }
                 }
-            },
-            "delete": {
-                "tags": [
-                    "Video"
-                ],
-                "summary": "Suppression d'une vidéo regardée",
-                "description": "Supprime une vidéo regardée en fonction de son identifiant.",
-                "operationId": "8c6411f9bf5eb7df47a2726837cf7cd9",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Identifiant de la vidéo regardée",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Vidéo supprimée avec succès",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "Message": {
-                                            "type": "string",
-                                            "example": "Supprimer une Video"
-                                        },
-                                        "Vidéo Supprimé": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "user_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "video_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-01-29T12:00:00Z"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2024-01-29T12:30:00Z"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Video Regardé non trouvée",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "Message": {
-                                            "type": "string",
-                                            "example": "Une Video Regardé avec l'identifiant {id} n'existe pas."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Non autorisé",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "Erreur": {
-                                            "type": "string",
-                                            "example": "Vous n'avez pas le droit de supprimer cette vidéo."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
             }
         }
     },
