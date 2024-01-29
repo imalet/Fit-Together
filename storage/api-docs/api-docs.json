@@ -1,0 +1,306 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swagger with Laravel",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Authentification de l'utilisateur",
+                "description": "Authentifie un utilisateur et génère un jeton d'accès.",
+                "operationId": "366e90292f1a812e4597167621caa3d7",
+                "requestBody": {
+                    "description": "Informations d'authentification de l'utilisateur",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "utilisateur@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "motdepasse123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur authentifié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Utilisateur Authentifié"
+                                        },
+                                        "Autorisation": {
+                                            "properties": {
+                                                "Token": {
+                                                    "type": "string",
+                                                    "example": "votre_jeton_d_acces"
+                                                },
+                                                "Type": {
+                                                    "type": "string",
+                                                    "example": "bearer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Erreur d'authentification",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Erreur d'Authentification"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Enregistrement d'un nouvel utilisateur",
+                "description": "Enregistre un nouvel utilisateur avec les informations fournies.",
+                "operationId": "e3acfad1e9d1aebbd072fb5116cae8e8",
+                "requestBody": {
+                    "description": "Informations d'enregistrement de l'utilisateur",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "photoProfil": {
+                                        "description": "Photo de profil de l'utilisateur (image)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "nom": {
+                                        "description": "Nom de l'utilisateur",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "prenom": {
+                                        "description": "Prénom de l'utilisateur",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "email": {
+                                        "description": "Adresse e-mail de l'utilisateur",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "role_id": {
+                                        "description": "ID du rôle de l'utilisateur",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "password": {
+                                        "description": "Mot de passe de l'utilisateur",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "motdepasse123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur enregistré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Nouvel Utilisateur": {
+                                            "description": "Détails de l'utilisateur enregistré",
+                                            "type": "object"
+                                        },
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Création d'Utilisateur Réussie !"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Déconnexion de l'utilisateur",
+                "description": "Déconnecte l'utilisateur actuellement authentifié.",
+                "operationId": "32d3ddedff578560bd9631702ff3fb05",
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur déconnecté avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Utilisateur Déconnecté !"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non connecté",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non Connecté"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/updatePassword": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Mise à jour du mot de passe de l'utilisateur",
+                "description": "Modifie le mot de passe de l'utilisateur avec les informations fournies.",
+                "operationId": "e7e59bb57949505a1b04fe559075c337",
+                "requestBody": {
+                    "description": "Informations de mise à jour du mot de passe",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "newPassword"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Adresse e-mail de l'utilisateur",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "utilisateur@example.com"
+                                    },
+                                    "newPassword": {
+                                        "description": "Nouveau mot de passe de l'utilisateur",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "nouveaumotdepasse123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mot de passe modifié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Mot de passe Modifié avec Succès"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Utilisateur non Trouvé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
