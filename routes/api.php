@@ -79,11 +79,11 @@ Route::post('/commentaire/{id}', [CommentaireController::class, 'update'])->name
 Route::delete('/commentaire/{id}', [CommentaireController::class, 'destroy'])->name('commentaire.delete')->middleware('auth:api');
 
 // Gestion des Sous Categories
-Route::get('sous_categories', [SousCategorieController::class, 'index']);
-Route::get('sous_categorie/{id}', [SousCategorieController::class, 'show']);
-Route::post('sous_categorie', [SousCategorieController::class, 'store'])->middleware('auth:api', 'isAdmin');
-Route::post('sous_categorie/{sousCategorie}', [SousCategorieController::class, 'update'])->middleware('auth:api', 'isAdmin');
-Route::delete('sous_categorie/{id}', [SousCategorieController::class, 'destroy'])->middleware('auth:api', 'isAdmin');
+Route::get('sous-categories', [SousCategorieController::class, 'index']);
+Route::get('sous-categorie/{id}', [SousCategorieController::class, 'show']);
+Route::post('sous-categorie', [SousCategorieController::class, 'store'])->middleware('auth:api', 'isAdmin');
+Route::post('sous-categorie/{sousCategorie}', [SousCategorieController::class, 'update'])->middleware('auth:api', 'isAdmin');
+Route::delete('sous-categorie/{id}', [SousCategorieController::class, 'destroy'])->middleware('auth:api', 'isAdmin');
 
 // Gestion des Categories
 Route::get('categories', [CategorieController::class, 'index']);
