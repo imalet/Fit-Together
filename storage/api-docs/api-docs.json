@@ -583,6 +583,573 @@
                 ]
             }
         },
+        "/api/roles": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Liste tous les rôles",
+                "description": "Récupère la liste de tous les rôles disponibles.",
+                "operationId": "ca86f0a206144dfbd695b749b4b28f9d",
+                "responses": {
+                    "200": {
+                        "description": "Liste de rôles récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Liste de Tous les Roles"
+                                        },
+                                        "Roles": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nom": {
+                                                        "type": "string",
+                                                        "example": "Nom du rôle"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29T12:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29T12:30:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur lors de la récupération de la liste des rôles"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/role": {
+            "post": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Ajout d'un rôle",
+                "description": "Ajoute un nouveau rôle à la liste des rôles disponibles.",
+                "operationId": "65d75fe4655bd29ae5109c70ac4b9177",
+                "requestBody": {
+                    "description": "Informations du rôle à ajouter",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "role": {
+                                        "description": "Nom du nouveau rôle",
+                                        "type": "string",
+                                        "example": "Nouveau Rôle"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rôle ajouté avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Rôle ajouté avec succès !"
+                                        },
+                                        "Information du Rôle": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "Nouveau Rôle"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non Authentifié"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur de validation des champs"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Ajout d'un Rôle Échoué"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/role/{id}": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Affichage d'un rôle",
+                "description": "Affiche les informations détaillées d'un rôle en fonction de son identifiant.",
+                "operationId": "29d45de75a2e172b3eaa96c31636c7a2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant du rôle",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informations du rôle affichées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Affichage d'un rôle"
+                                        },
+                                        "Information du Rôle": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "Nom du rôle"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Rôle non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Le rôle avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non Authentifié"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Modification d'un rôle",
+                "description": "Modifie les informations d'un rôle en fonction de son identifiant.",
+                "operationId": "bbcb584435aa5f17262ccaaa24cc4684",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant du rôle à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Nouvelles informations du rôle",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "role": {
+                                        "description": "Nouveau nom du rôle",
+                                        "type": "string",
+                                        "example": "Nouveau Nom du Rôle"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rôle modifié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Rôle modifié avec succès !"
+                                        },
+                                        "Information du Rôle": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "Nouveau Nom du Rôle"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Rôle non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Le rôle avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non Authentifié"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur de validation des champs"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Modification du Rôle Échouée"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Suppression d'un rôle",
+                "description": "Supprime un rôle en fonction de son identifiant.",
+                "operationId": "f3699fda8b317a6dd66f30ddb275774f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant du rôle à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rôle supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Rôle supprimé avec succès."
+                                        },
+                                        "Information du Rôle": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "Nom du rôle"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Rôle non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Le rôle avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non Authentifié"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Impossible de supprimer le rôle",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Impossible de supprimer le rôle car il est associé à des utilisateurs."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur lors de la suppression du Rôle"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -856,6 +1423,394 @@
                                         "Erreur": {
                                             "type": "string",
                                             "example": "Utilisateur non Trouvé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/videos": {
+            "get": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Liste toutes les vidéos",
+                "description": "Récupère la liste de toutes les vidéos disponibles.",
+                "operationId": "a6941edad984f8f673fe335e980a3c88",
+                "responses": {
+                    "200": {
+                        "description": "Liste de vidéos récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Lister Toutes les vidéos"
+                                        },
+                                        "Videos": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "titre": {
+                                                        "type": "string",
+                                                        "example": "Titre de la vidéo"
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": "URL de la vidéo"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29T12:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29T12:30:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur lors de la récupération de la liste des vidéos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/video": {
+            "post": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Ajout d'une vidéo à regarder",
+                "description": "Ajoute une vidéo à la liste des vidéos à regarder.",
+                "operationId": "c4cd8824589dcc7e7f968e85fac5af5a",
+                "requestBody": {
+                    "description": "Informations de la vidéo à ajouter",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "Identifiant de l'utilisateur",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "video_id": {
+                                        "description": "Identifiant de la vidéo",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vidéo ajoutée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Insertion Réussie !"
+                                        },
+                                        "Vidéo ajoutée": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "video_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non Authentifié"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur de validation des champs"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Insertion de la vidéo échouée"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/video/{id}": {
+            "get": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Affichage d'une vidéo regardée",
+                "description": "Affiche les informations détaillées d'une vidéo regardée en fonction de son identifiant.",
+                "operationId": "8641f67ea0f274dd5fae979f2a410520",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de la vidéo regardée",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informations de la vidéo regardée affichées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Affichage d'une Video"
+                                        },
+                                        "Information de la Video Regardé": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "video_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Video Regardé non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Une Video Regardé avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Suppression d'une vidéo regardée",
+                "description": "Supprime une vidéo regardée en fonction de son identifiant.",
+                "operationId": "8c6411f9bf5eb7df47a2726837cf7cd9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de la vidéo regardée",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vidéo supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Supprimer une Video"
+                                        },
+                                        "Vidéo Supprimé": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "video_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Video Regardé non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Une Video Regardé avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Vous n'avez pas le droit de supprimer cette vidéo."
                                         }
                                     },
                                     "type": "object"
