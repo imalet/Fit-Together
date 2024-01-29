@@ -38,32 +38,6 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $this->authorize('create', Post::class);
-
-    //     $fileName = time() . "." . $request->path_image->extension();
-
-    //     $image_path = $request->path_image->storeAs(
-    //         'images_posts',
-    //         $fileName,
-    //         'public'
-    //     );
-
-    //     $newPost = new Post();
-    //     $newPost->titre = $request->titre;
-    //     $newPost->image = $image_path;
-    //     $newPost->contenu = $request->contenu;
-    //     $newPost->user_id = $request->user()->id;
-
-    //     if ($newPost->save()) {
-    //         return response()->json([
-    //             "Message" => "Post Ajoué avec Success !",
-    //             "Information du Post" => new PostResource($newPost)
-    //         ], 200);
-    //     }
-    //     return response("Ajout de Post Echoué");
-    // }
     public function store(StorePost $request)
     {
         $this->authorize('create', Post::class);
