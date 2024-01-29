@@ -15,6 +15,40 @@ class InformationComplementaireController extends Controller
     /**
      * Display a listing of the resource.
      */
+    /**
+     * @OA\Get(
+     *     path="/api/informations/complementaires",
+     *     summary="Liste des informations complémentaires",
+     *     description="Récupère la liste de toutes les informations complémentaires.",
+     *     tags={"Information Complémentaire"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des informations complémentaires récupérée avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Message", type="string", example="Lister Tous les Users"),
+     *             @OA\Property(property="Users", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="nom", type="string", example="Nom de l'utilisateur"),
+     *                     @OA\Property(property="prenom", type="string", example="Prénom de l'utilisateur"),
+     *                     @OA\Property(property="email", type="string", example="utilisateur@example.com"),
+     *                     @OA\Property(property="role_id", type="integer", example=1),
+     *                     @OA\Property(property="photoProfil", type="string", example="path/vers/photo.jpg"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-29T12:00:00Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-29T12:30:00Z")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Erreur interne du serveur",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Erreur", type="string", example="Erreur lors de la récupération des informations complémentaires")
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $informationComplementaires = InformationComplementaire::all();
@@ -23,14 +57,6 @@ class InformationComplementaireController extends Controller
             "Message" => "Lister Tous les Users",
             "Users" => InformationCompleteResource::collection($informationComplementaires)
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -55,7 +81,61 @@ class InformationComplementaireController extends Controller
     //     }
     //     return response("Ajout d'Information Complementaires Echoué !");
     // }
-
+    /**
+     * @OA\Post(
+     *     path="/api/information/omplementaire",
+     *     summary="Ajout d'informations complémentaires",
+     *     description="Ajoute des informations complémentaires pour un utilisateur.",
+     *     tags={"Information Complémentaire"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Données d'entrée pour ajouter des informations complémentaires",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="bio", type="string", example="Description de l'utilisateur"),
+     *             @OA\Property(property="qualification", type="string", example="Qualification de l'utilisateur"),
+     *             @OA\Property(property="experience", type="string", example="Expérience de l'utilisateur")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Informations complémentaires ajoutées avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Message", type="string", example="Informations Complémentaires Ajoutées avec Succès !"),
+     *             @OA\Property(property="Information Complementaire", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="bio", type="string", example="Description de l'utilisateur"),
+     *                 @OA\Property(property="qualification", type="string", example="Qualification de l'utilisateur"),
+     *                 @OA\Property(property="experience", type="string", example="Expérience de l'utilisateur"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-29T12:00:00Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-29T12:30:00Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Non autorisé",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Erreur", type="string", example="Non autorisé")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Erreur de validation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Erreur", type="string", example="Erreur de validation des champs")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Erreur interne du serveur",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Erreur", type="string", example="Ajout d'Informations Complémentaires Échoué !")
+     *         )
+     *     )
+     * )
+     */
     public function store(StoreInformationComplementaire $request)
     {
         $this->authorize('create', InformationComplementaire::class);
@@ -79,6 +159,44 @@ class InformationComplementaireController extends Controller
     /**
      * Display the specified resource.
      */
+    /**
+     * @OA\Get(
+     *     path="/api/information/complementaire/{id}",
+     *     summary="Affichage d'une information complémentaire",
+     *     description="Récupère les détails d'une information complémentaire en fonction de son identifiant.",
+     *     tags={"Information Complémentaire"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Identifiant de l'information complémentaire à afficher",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Information complémentaire récupérée avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Message", type="string", example="Affichage d'une Information Complémentaire"),
+     *             @OA\Property(property="Information Complementaire", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="bio", type="string", example="Description de l'utilisateur"),
+     *                 @OA\Property(property="qualification", type="string", example="Qualification de l'utilisateur"),
+     *                 @OA\Property(property="experience", type="string", example="Expérience de l'utilisateur"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-29T12:00:00Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-29T12:30:00Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Information complémentaire non trouvée",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Message", type="string", example="L'information Complementaire avec l'identifiant {id} n'existe pas.")
+     *         )
+     *     )
+     * )
+     */
     public function show(string $id)
     {
         $informationComplementaire = InformationComplementaire::find($id);
@@ -93,14 +211,6 @@ class InformationComplementaireController extends Controller
             "Message" => "Affichage d'une Video",
             "Information de la Video" => new InformationCompleteResource($informationComplementaire)
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -125,7 +235,75 @@ class InformationComplementaireController extends Controller
     //     }
     //     return response("Moficication d'Information Complementaires Echoué !");
     // }
-
+    /**
+     * @OA\Post(
+     *     path="/api/information/complementaire/{id}",
+     *     summary="Modification d'informations complémentaires",
+     *     description="Modifie les informations complémentaires pour un utilisateur en fonction de son identifiant.",
+     *     tags={"Information Complémentaire"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Identifiant de l'information complémentaire à modifier",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Données d'entrée pour la modification des informations complémentaires",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="bio", type="string", example="Nouvelle description de l'utilisateur"),
+     *             @OA\Property(property="qualification", type="string", example="Nouvelle qualification de l'utilisateur"),
+     *             @OA\Property(property="experience", type="string", example="Nouvelle expérience de l'utilisateur")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Informations complémentaires modifiées avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Message", type="string", example="Informations Complémentaires Modifiées avec Succès !"),
+     *             @OA\Property(property="Information Complementaires", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="bio", type="string", example="Nouvelle description de l'utilisateur"),
+     *                 @OA\Property(property="qualification", type="string", example="Nouvelle qualification de l'utilisateur"),
+     *                 @OA\Property(property="experience", type="string", example="Nouvelle expérience de l'utilisateur"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-29T12:00:00Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-29T12:30:00Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Information complémentaire non trouvée",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Message", type="string", example="L'information Complementaire avec l'identifiant {id} n'existe pas.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Non autorisé",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Erreur", type="string", example="Non autorisé")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Erreur de validation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Erreur", type="string", example="Erreur de validation des champs")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Erreur interne du serveur",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Erreur", type="string", example="Modification d'Informations Complementaires Échouée !")
+     *         )
+     *     )
+     * )
+     */
     public function update(UpdateInformationComplementaire $request, string $id)
     {
         $informationComplementaire = InformationComplementaire::find($id);
@@ -146,10 +324,54 @@ class InformationComplementaireController extends Controller
         return response("Modification d'Informations Complementaires Échouée !");
     }
 
-
-
     /**
      * Remove the specified resource from storage.
+     */
+    /**
+     * @OA\Delete(
+     *     path="/api/informations-complementaires/{id}",
+     *     summary="Suppression d'une information complémentaire",
+     *     description="Supprime une information complémentaire en fonction de son identifiant.",
+     *     tags={"Information Complémentaire"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="Identifiant de l'information complémentaire à supprimer",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Information complémentaire supprimée avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Message", type="string", example="Supprimer une Information Complementaire"),
+     *             @OA\Property(property="Information Complementaire", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="user_id", type="integer", example=1),
+     *                 @OA\Property(property="bio", type="string", example="Description de l'utilisateur"),
+     *                 @OA\Property(property="qualification", type="string", example="Qualification de l'utilisateur"),
+     *                 @OA\Property(property="experience", type="string", example="Expérience de l'utilisateur"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-29T12:00:00Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-29T12:30:00Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Information complémentaire non trouvée",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Message", type="string", example="L'information Complementaire avec l'identifiant {id} n'existe pas.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Non autorisé",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Erreur", type="string", example="Non autorisé")
+     *         )
+     *     )
+     * )
      */
     public function destroy(string $id)
     {

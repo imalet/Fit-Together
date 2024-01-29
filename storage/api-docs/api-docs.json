@@ -1151,6 +1151,600 @@
                 ]
             }
         },
+        "/api/informations/complementaires": {
+            "get": {
+                "tags": [
+                    "Information Complémentaire"
+                ],
+                "summary": "Liste des informations complémentaires",
+                "description": "Récupère la liste de toutes les informations complémentaires.",
+                "operationId": "14d48312abdeb598ec2d4c3003d6f742",
+                "responses": {
+                    "200": {
+                        "description": "Liste des informations complémentaires récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Lister Tous les Users"
+                                        },
+                                        "Users": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nom": {
+                                                        "type": "string",
+                                                        "example": "Nom de l'utilisateur"
+                                                    },
+                                                    "prenom": {
+                                                        "type": "string",
+                                                        "example": "Prénom de l'utilisateur"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "utilisateur@example.com"
+                                                    },
+                                                    "role_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "photoProfil": {
+                                                        "type": "string",
+                                                        "example": "path/vers/photo.jpg"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29T12:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-01-29T12:30:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur lors de la récupération des informations complémentaires"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/information/omplementaire": {
+            "post": {
+                "tags": [
+                    "Information Complémentaire"
+                ],
+                "summary": "Ajout d'informations complémentaires",
+                "description": "Ajoute des informations complémentaires pour un utilisateur.",
+                "operationId": "b903493756b3f18a182532ddbc01241b",
+                "requestBody": {
+                    "description": "Données d'entrée pour ajouter des informations complémentaires",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bio": {
+                                        "type": "string",
+                                        "example": "Description de l'utilisateur"
+                                    },
+                                    "qualification": {
+                                        "type": "string",
+                                        "example": "Qualification de l'utilisateur"
+                                    },
+                                    "experience": {
+                                        "type": "string",
+                                        "example": "Expérience de l'utilisateur"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Informations complémentaires ajoutées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Informations Complémentaires Ajoutées avec Succès !"
+                                        },
+                                        "Information Complementaire": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "bio": {
+                                                    "type": "string",
+                                                    "example": "Description de l'utilisateur"
+                                                },
+                                                "qualification": {
+                                                    "type": "string",
+                                                    "example": "Qualification de l'utilisateur"
+                                                },
+                                                "experience": {
+                                                    "type": "string",
+                                                    "example": "Expérience de l'utilisateur"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur de validation des champs"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Ajout d'Informations Complémentaires Échoué !"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/information/complementaire/{id}": {
+            "get": {
+                "tags": [
+                    "Information Complémentaire"
+                ],
+                "summary": "Affichage d'une information complémentaire",
+                "description": "Récupère les détails d'une information complémentaire en fonction de son identifiant.",
+                "operationId": "2a0922c892efd3b836a76f5357afb8aa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de l'information complémentaire à afficher",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information complémentaire récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Affichage d'une Information Complémentaire"
+                                        },
+                                        "Information Complementaire": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "bio": {
+                                                    "type": "string",
+                                                    "example": "Description de l'utilisateur"
+                                                },
+                                                "qualification": {
+                                                    "type": "string",
+                                                    "example": "Qualification de l'utilisateur"
+                                                },
+                                                "experience": {
+                                                    "type": "string",
+                                                    "example": "Expérience de l'utilisateur"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Information complémentaire non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "L'information Complementaire avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Information Complémentaire"
+                ],
+                "summary": "Modification d'informations complémentaires",
+                "description": "Modifie les informations complémentaires pour un utilisateur en fonction de son identifiant.",
+                "operationId": "3c54a5edc51e68ef9254e2ebe6628dcd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de l'information complémentaire à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Données d'entrée pour la modification des informations complémentaires",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "bio": {
+                                        "type": "string",
+                                        "example": "Nouvelle description de l'utilisateur"
+                                    },
+                                    "qualification": {
+                                        "type": "string",
+                                        "example": "Nouvelle qualification de l'utilisateur"
+                                    },
+                                    "experience": {
+                                        "type": "string",
+                                        "example": "Nouvelle expérience de l'utilisateur"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Informations complémentaires modifiées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Informations Complémentaires Modifiées avec Succès !"
+                                        },
+                                        "Information Complementaires": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "bio": {
+                                                    "type": "string",
+                                                    "example": "Nouvelle description de l'utilisateur"
+                                                },
+                                                "qualification": {
+                                                    "type": "string",
+                                                    "example": "Nouvelle qualification de l'utilisateur"
+                                                },
+                                                "experience": {
+                                                    "type": "string",
+                                                    "example": "Nouvelle expérience de l'utilisateur"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Information complémentaire non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "L'information Complementaire avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Erreur de validation des champs"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Modification d'Informations Complementaires Échouée !"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/informations-complementaires/{id}": {
+            "delete": {
+                "tags": [
+                    "Information Complémentaire"
+                ],
+                "summary": "Suppression d'une information complémentaire",
+                "description": "Supprime une information complémentaire en fonction de son identifiant.",
+                "operationId": "8c0ee56bc212601962a79c18dcd87557",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de l'information complémentaire à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Information complémentaire supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Supprimer une Information Complementaire"
+                                        },
+                                        "Information Complementaire": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "bio": {
+                                                    "type": "string",
+                                                    "example": "Description de l'utilisateur"
+                                                },
+                                                "qualification": {
+                                                    "type": "string",
+                                                    "example": "Qualification de l'utilisateur"
+                                                },
+                                                "experience": {
+                                                    "type": "string",
+                                                    "example": "Expérience de l'utilisateur"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-01-29T12:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Information complémentaire non trouvée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "L'information Complementaire avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Erreur": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/posts": {
             "get": {
                 "tags": [
