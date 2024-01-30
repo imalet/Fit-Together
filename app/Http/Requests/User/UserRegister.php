@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\UserRequest;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateUser extends FormRequest
+class UserRegister extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,28 +24,28 @@ class UpdateUser extends FormRequest
     public function rules()
     {
         return [
+            'photoProfil' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->route('id'),
-            'photoProfil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
     public function messages()
     {
         return [
-            'nom.required' => 'Le champ nom est requis.',
-            'nom.string' => 'Le nom doit être une chaîne de caractères.',
-            'nom.max' => 'Le nom ne doit pas dépasser 255 caractères.',
-            'prenom.required' => 'Le champ prénom est requis.',
-            'prenom.string' => 'Le prénom doit être une chaîne de caractères.',
-            'prenom.max' => 'Le prénom ne doit pas dépasser 255 caractères.',
-            'email.required' => 'Le champ email est requis.',
-            'email.email' => 'L\'adresse email doit être valide.',
-            'email.unique' => 'Cette adresse email est déjà utilisée par un autre utilisateur.',
             'photoProfil.image' => 'Le fichier doit être une image.',
-            'photoProfil.mimes' => 'L\'image doit être de type : jpeg, png, jpg, gif.',
-            'photoProfil.max' => 'La taille de l\'image ne doit pas dépasser 2048 kilo-octets.',
+            'photoProfil.mimes' => 'Le fichier doit être de type :values.',
+            'photoProfil.max' => 'La taille du fichier ne doit pas dépasser :max kilo-octets.',
+            'nom.required' => 'Le champ nom est obligatoire.',
+            'nom.string' => 'Le champ nom doit être une chaîne de caractères.',
+            'nom.max' => 'Le champ nom ne doit pas dépasser :max caractères.',
+            'prenom.required' => 'Le champ prénom est obligatoire.',
+            'prenom.string' => 'Le champ prénom doit être une chaîne de caractères.',
+            'prenom.max' => 'Le champ prénom ne doit pas dépasser :max caractères.',
+            'email.required' => 'Le champ email est obligatoire.',
+            'email.email' => 'Le champ email doit être une adresse e-mail valide.',
+            'email.unique' => 'Cette adresse e-mail est déjà utilisée par un autre utilisateur.',
         ];
     }
 

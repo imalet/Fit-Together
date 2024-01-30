@@ -16,10 +16,10 @@ class CategorieFactory extends Factory
      */
     public function definition(): array
     {
-        $roles = ["A", "B", "C", "D", "E", "F", "G"];
+        $categorie = ["CATEGORIE A", "CATEGORIE B", "CATEGORIE C"];
 
         return [
-            'categorie' => $roles[rand(0,3)]
+            'categorie' => $categorie[rand(0,2)]
         ];
     }
 }

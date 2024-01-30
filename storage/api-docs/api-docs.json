@@ -2390,7 +2390,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/role": {
@@ -3655,6 +3660,423 @@
                                         "Erreur": {
                                             "type": "string",
                                             "example": "Utilisateur non Trouvé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Lister tous les utilisateurs",
+                "description": "Récupère la liste complète des utilisateurs enregistrés.",
+                "operationId": "getUsers",
+                "responses": {
+                    "200": {
+                        "description": "Liste des utilisateurs récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Lister Tous les Users"
+                                        },
+                                        "Users": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "photoProfil": {
+                                                        "type": "string"
+                                                    },
+                                                    "nom": {
+                                                        "type": "string"
+                                                    },
+                                                    "prenom": {
+                                                        "type": "string"
+                                                    },
+                                                    "email": {
+                                                        "type": "string"
+                                                    },
+                                                    "role_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "email_verified_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "nullable": true
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Afficher un utilisateur",
+                "description": "Récupère les informations d'un utilisateur spécifique.",
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informations de l'utilisateur récupérées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Affichage d'un Utilisateur"
+                                        },
+                                        "Information de l'Utilisateur": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "photoProfil": {
+                                                    "type": "string"
+                                                },
+                                                "nom": {
+                                                    "type": "string"
+                                                },
+                                                "prenom": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "role_id": {
+                                                    "type": "integer"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "nullable": true
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "L'utilisateur avec l'identifiant spécifié n'existe pas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "L'utilisateur avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Modifier un utilisateur",
+                "description": "Modifie les informations d'un utilisateur spécifique.",
+                "operationId": "updateUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de l'utilisateur à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "photoProfil": {
+                                        "description": "Nouvelle photo de profil en tant que fichier",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "nom": {
+                                        "description": "Nouveau nom de l'utilisateur",
+                                        "type": "string"
+                                    },
+                                    "prenom": {
+                                        "description": "Nouveau prénom de l'utilisateur",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Nouvelle adresse e-mail de l'utilisateur",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Modification de l'utilisateur réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Nouvelle Donnée de l'Utilisateur": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "photoProfil": {
+                                                    "type": "string"
+                                                },
+                                                "nom": {
+                                                    "type": "string"
+                                                },
+                                                "prenom": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "role_id": {
+                                                    "type": "integer"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "nullable": true
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Modification d'un Utilisateur Réussie !"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Erreur dans les paramètres de la requête",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erreur dans les paramètres de la requête"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "L'utilisateur avec l'identifiant spécifié n'existe pas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "L'utilisateur avec l'identifiant {id} n'existe pas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Supprimer un utilisateur",
+                "description": "Supprime un utilisateur spécifique.",
+                "operationId": "deleteUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Identifiant de l'utilisateur à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "Suppression d'un Utilisateur Réussie !"
+                                        },
+                                        "Utilisateur Supprimé": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "photoProfil": {
+                                                    "type": "string"
+                                                },
+                                                "nom": {
+                                                    "type": "string"
+                                                },
+                                                "prenom": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "role_id": {
+                                                    "type": "integer"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "nullable": true
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - L'utilisateur n'est pas autorisé à supprimer cet utilisateur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vous n'êtes pas autorisé à supprimer cet utilisateur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "L'utilisateur avec l'identifiant spécifié n'existe pas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string",
+                                            "example": "L'utilisateur avec l'identifiant {id} n'existe pas."
                                         }
                                     },
                                     "type": "object"

@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        Role::factory(2)
-            ->has(User::factory()->count(2))
+        Role::factory(3)
+            ->has(User::factory()->count(3))
             ->create();
         
         Categorie::factory(2)

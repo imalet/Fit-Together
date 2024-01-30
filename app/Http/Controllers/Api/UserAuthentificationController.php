@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserRegister;
 use App\Http\Requests\UserAuthentificationRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Attempting;
@@ -103,7 +104,7 @@ class UserAuthentificationController extends Controller
      *     )
      * )
      */
-    public function register(UserAuthentificationRequest $request)
+    public function register(UserRegister $request)
     {
         $fileName = time() . "." . $request->photoProfil->extension();
 
