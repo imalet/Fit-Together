@@ -89,7 +89,6 @@ class UserAuthentificationController extends Controller
      *                 @OA\Property(property="nom", type="string", example="Doe", description="Nom de l'utilisateur"),
      *                 @OA\Property(property="prenom", type="string", example="John", description="Prénom de l'utilisateur"),
      *                 @OA\Property(property="email", type="string", format="email", example="john.doe@example.com", description="Adresse e-mail de l'utilisateur"),
-     *                 @OA\Property(property="role_id", type="integer", example=1, description="ID du rôle de l'utilisateur"),
      *                 @OA\Property(property="password", type="string", format="password", example="motdepasse123", description="Mot de passe de l'utilisateur")
      *             )
      *         )
@@ -119,7 +118,7 @@ class UserAuthentificationController extends Controller
         $newUser->nom = $request->nom;
         $newUser->prenom = $request->prenom;
         $newUser->email = $request->email;
-        $newUser->role_id = $request->role_id;
+        $newUser->role_id = 3;
         $newUser->password = Hash::make($request->password);
 
         if ($newUser->save()) {

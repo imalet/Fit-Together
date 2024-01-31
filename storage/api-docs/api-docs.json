@@ -2390,12 +2390,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/api/role": {
@@ -3507,11 +3502,6 @@
                                         "format": "email",
                                         "example": "john.doe@example.com"
                                     },
-                                    "role_id": {
-                                        "description": "ID du rôle de l'utilisateur",
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "password": {
                                         "description": "Mot de passe de l'utilisateur",
                                         "type": "string",
@@ -3739,12 +3729,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/users/{id}": {

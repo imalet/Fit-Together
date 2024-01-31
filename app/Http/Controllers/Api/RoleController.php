@@ -18,9 +18,6 @@ class RoleController extends Controller
      * @OA\Get(
      *     path="/api/roles",
      *     summary="Liste tous les rôles",
-     *      security={
-     *         {"bearerAuth": {}}
-     *     },
      *     description="Récupère la liste de tous les rôles disponibles.",
      *     tags={"Role"},
      *     @OA\Response(

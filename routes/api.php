@@ -99,7 +99,8 @@ Route::post('videoRegarde', [VideoRegardeController::class, 'store'])->middlewar
 Route::delete('videoRegarde/{id}', [VideoRegardeController::class, 'destroy'])->middleware('auth:api','isUser');
 
 // Gestion des Roles
-Route::get('roles', [RoleController::class, 'index'])->middleware('auth:api', 'isAdmin');
+Route::get('roles', [RoleController::class, 'index']);
+// Route::get('roles', [RoleController::class, 'index'])->middleware('auth:api', 'isAdmin');
 Route::get('role/{id}', [RoleController::class, 'show'])->middleware('auth:api', 'isAdmin');
 Route::post('role', [RoleController::class, 'store'])->middleware('auth:api', 'isAdmin');
 Route::post('role/{id}', [RoleController::class, 'update'])->middleware('auth:api', 'isAdmin');

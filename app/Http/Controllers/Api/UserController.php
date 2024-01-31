@@ -41,9 +41,6 @@ class UserController extends Controller
      *             ),
      *         )
      *     ),
-     *     security={
-     *         {"bearerAuth": {}}
-     *     }
      * )
      */
     public function index()
