@@ -24,7 +24,7 @@ class UserRegister extends FormRequest
     public function rules()
     {
         return [
-            'photoProfil' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'photoProfil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->route('id'),

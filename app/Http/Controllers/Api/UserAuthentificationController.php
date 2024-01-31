@@ -105,16 +105,16 @@ class UserAuthentificationController extends Controller
      */
     public function register(UserRegister $request)
     {
-        $fileName = time() . "." . $request->photoProfil->extension();
+        // $fileName = time() . "." . $request->photoProfil->extension();
 
-        $image_path = $request->photoProfil->storeAs(
-            'images_profil',
-            $fileName,
-            'public'
-        );
+        // $image_path = $request->photoProfil->storeAs(
+        //     'images_profil',
+        //     $fileName,
+        //     'public'
+        // );
 
         $newUser = new User();
-        $newUser->photoProfil = $image_path;
+        // $newUser->photoProfil = $image_path;
         $newUser->nom = $request->nom;
         $newUser->prenom = $request->prenom;
         $newUser->email = $request->email;
